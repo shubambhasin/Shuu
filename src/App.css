@@ -1,38 +1,87 @@
-.App {
-  text-align: center;
+@import "https://ease-css.netlify.app/ease/css/ease.css";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.container
+{
+  margin-top: 2rem;
+}
+.loader
+{
+  align-self: center;
+  justify-self: center;
+  
+}
+.navbar{
+  padding: 0 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  box-shadow: 0 5px 20px 5px rgb(241, 241, 241);
+  font-size: small;
+}
+.nav-items{
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.new-arrivals
+{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.products-section
+{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.equal
+{
+  margin-top: auto;
+  justify-content: flex-start;
+}
+.card-name
+{
+  
+}
+.product-card
+{
+  font-size: small;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 300px;
+  max-height: auto;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.product-card:hover
+{
+  transform: scale(1.01);
+  box-shadow: 0 0 20px 5px rgb(238, 238, 238);
 }
 
-.App-link {
-  color: #61dafb;
+.sidebar
+{
+
+  min-height: 100vh;
+  align-self: flex-start;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.strike
+{
+  text-decoration: line-through;
 }

@@ -1,0 +1,10 @@
+export const LOAD_PRODUCTS = "LOAD_PRODUCTS";
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
+export const REMOVE_FROM_WISHLIST = "REMOVE_FROM_WISHLIST";
+export const INCREASE_QTY = "INCREASE_QTY";
+export const DECREASE_QTY = "DECREASE_QTY";
+export const ADD_LOADER = "ADD_LOADER"
+export const REMOVE_LOADER = "REMOVE_LOADER"
+
