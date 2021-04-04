@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useProducts } from "../../context/ProductContext";
-import { LOAD_PRODUCTS } from "../reducer/actions";
+import { LOAD_PRODUCTS } from "../../reducer/actions";
 import Sidebar from "../Sidebar";
 import ProductCard from "../ProductCard";
 

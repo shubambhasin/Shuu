@@ -1,6 +1,6 @@
 import React from "react";
 import { useProducts } from "../context/ProductContext";
-import { ADD_TO_CART, INCREASE_QTY, REMOVE_FROM_CART } from "./reducer/actions";
+import { ADD_TO_CART, ADD_TO_WISHLIST, INCREASE_QTY, REMOVE_FROM_CART } from "../reducer/actions";
 
 const ProductCard = ({ product }) => {
   const { state, dispatch } = useProducts();
@@ -48,21 +48,21 @@ const ProductCard = ({ product }) => {
             <span className="f-red"> ({offer}% off)</span>
           </span>
         </p>{" "}
-        <p className={`star-${ratings}`}></p>
+        <p className={`star-${Math.floor(`${ratings}`)}`}></p>
       </span>
-      <p className="card-category">{category} </p>
-      <span className="flex">
-        {inStock && <p> InStock</p>}
+      <p className="card-category flag-left">{category} </p>
+      <span className="flex gap-2">
+        {inStock ? <p> InStock</p> : <p>OUT OF STOCK</p>} {" "}
         {fastDelivery && <p>ExpressDelivery</p>}
       </span>
 
       <span className="equal flex gap-2">
-        <button className="btn btn-blue" onClick={() => addToCart(product)}>
-          Add to Cart
+        <button className="btn btn-blue" onClick={() => addToCart(product)} disabled={!inStock}>
+         {inStock ?  <>Add to Cart</>: <>OUT OF STOCK</>}
         </button>
         <button
           className="btn btn-red"
-          onClick={() => dispatch({ type: REMOVE_FROM_CART, payload: product })}
+          onClick={() => dispatch({ type: ADD_TO_WISHLIST, payload: product })}
         >
           Wishlist{" "}
         </button>

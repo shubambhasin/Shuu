@@ -17,23 +17,36 @@ const reducerFunction = (state, { type, payload }) => {
       };
     case ADD_TO_CART:
       return {
-          ...state, cart: [...state.products, payload]
+        ...state,
+        cart: [...state.cart, { ...payload, quantity: 1 }],
       };
     case REMOVE_FROM_CART:
       return {};
 
     case ADD_TO_WISHLIST:
-      return {};
+      return {
+        ...state, wishlist: [...state.wishlist, {...payload, quantity: 0}]
+      };
     case REMOVE_FROM_WISHLIST:
       return {};
     case INCREASE_QTY:
       return {
-          ...state, cart: state.cart.map((data) => {
-              data.id === payload.id ? 
-          })
+        ...state,
+        cart: state.cart.map((item) =>
+          item.id === payload.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ),
       };
     case DECREASE_QTY:
-      return {};
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          item.id === payload.id
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        ),
+      };
 
     default:
       console.log("unknown event");

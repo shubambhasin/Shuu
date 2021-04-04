@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useProducts } from "../context/ProductContext";
 
 const Navbar = () => {
+
+  const { state, dispatch } = useProducts()
   return (
     <div className="navbar">
       <div className="nav-items flex gap-2">
@@ -30,10 +33,10 @@ const Navbar = () => {
       </div>
       <div className="nav-items flex gap-2">
         <Link className="links" to="/wishlist">
-          Wishlist
+          Wishlist ({state.wishlist.length})
         </Link>
         <Link className="links" to="/cart">
-          Cart
+          Cart  ({state.cart.length})
         </Link>
         <Link className="links" to="/profile">
           Profile
