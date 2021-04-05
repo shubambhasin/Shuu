@@ -10,10 +10,42 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-.align-center
-{
-  align-items: center;
 
+/* -----------misc-------------- */
+.center-banners {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+.banners {
+  width: 200px;
+  height: 200px;
+}
+
+.pop-out {
+  transition: 0.2s;
+}
+.pop-out:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 20px 5px rgb(238, 238, 238);
+}
+
+.links {
+  color: black;
+}
+.outline-hover {
+  border: 1px solid transparent;
+  transition: 0.2s;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+.outline-hover:hover {
+  border: 1px solid grey;
+}
+.align-center {
+  align-items: center;
 }
 
 .j-space-between {
@@ -69,17 +101,6 @@ body {
 }
 .card-name {
 }
-.product-card {
-  font-size: small;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  max-height: auto;
-  border-radius: 5px;
-  transition: 0.3s;
-  position: relative;
-}
 .flag-left {
   background-color: whitesmoke;
   padding: 0.2rem 0.5rem;
@@ -91,14 +112,23 @@ body {
   border-start-end-radius: 10px;
   left: 1rem;
 }
+.product-card {
+  font-size: small;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  max-height: auto;
+  border-radius: 5px;
+  transition: 0.3s;
+  position: relative;
+}
 .product-card:hover {
   transform: scale(1.01);
   box-shadow: 0 0 20px 5px rgb(238, 238, 238);
 }
 
 .sidebar {
-
-
   color: rgb(99, 99, 99);
   background-color: rgb(245, 252, 255);
 
@@ -114,31 +144,37 @@ body {
   text-decoration: line-through;
 }
 
-
 /* --------------------Cart---------------- */
 
-.cart
-{
+.cart {
 }
-.cart-card
-{
-  
+.cart-card {
+  font-size: small;
   width: 200px;
-  height:300px;
+  height: 300px;
 }
-.product-cart
-{
+.product-cart {
+  background-color: rgb(241, 254, 255);
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   flex: 75%;
 }
-.cart-total
-{
-  flex: 25%;
-  border: 1px solid red;
-}
-.cart-container
-{
+.cart-total {
   
+  background-color: rgb(241, 254, 255);
+  flex: 25%;
+
+}
+.cart-container {
+}
+
+/* -------------wishlist------------------ */
+.wishlist-flex
+{
+  justify-content: center;
+}
+.wishlist-card {
+  font-size: small;
+  width: 250px;
 }

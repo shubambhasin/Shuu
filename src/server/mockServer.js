@@ -9,7 +9,7 @@ export const mockServer = () => {
 
     routes() {
       this.namespace = "api";
-      this.timing = 2000;
+      this.timing = 700;
       this.resource("products");
     },
 

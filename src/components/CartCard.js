@@ -1,6 +1,10 @@
 import React from "react";
 import { useProducts } from "../context/ProductContext";
-import { DECREASE_QTY, INCREASE_QTY } from "../reducer/actions";
+import {
+  DECREASE_QTY,
+  INCREASE_QTY,
+  REMOVE_FROM_CART,
+} from "../reducer/actions";
 
 const CartCard = ({ product }) => {
   const { name, id, price, quantity, image } = product;
@@ -30,7 +34,14 @@ const CartCard = ({ product }) => {
         </span>
         <span>
           {" "}
-          <button className="btn btn-red">Remove</button>
+          <button
+            className="btn btn-red"
+            onClick={() =>
+              dispatch({ type: REMOVE_FROM_CART, payload: product })
+            }
+          >
+            Remove
+          </button>
         </span>
       </div>
     </div>

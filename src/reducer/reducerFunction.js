@@ -4,6 +4,7 @@ import {
   DECREASE_QTY,
   INCREASE_QTY,
   LOAD_PRODUCTS,
+  MOVE_TO_CART,
   REMOVE_FROM_CART,
   REMOVE_FROM_WISHLIST,
 } from "./actions";
@@ -21,14 +22,26 @@ const reducerFunction = (state, { type, payload }) => {
         cart: [...state.cart, { ...payload, quantity: 1 }],
       };
     case REMOVE_FROM_CART:
-      return {};
+      return {
+        ...state,
+        cart: state.cart.filter((data) => data.id !== payload.id),
+      };
 
     case ADD_TO_WISHLIST:
       return {
-        ...state, wishlist: [...state.wishlist, {...payload, quantity: 0}]
+        ...state,
+        wishlist: [...state.wishlist, { ...payload, quantity: 0 }],
       };
     case REMOVE_FROM_WISHLIST:
-      return {};
+      return {
+        ...state,
+        wishlist: state.wishlist.filter((data) => data.id !== payload.id),
+      };
+    case MOVE_TO_CART:
+      return {
+        ...state,
+        products: [...state.products, { ...payload, quantity: 1 }],
+      };
     case INCREASE_QTY:
       return {
         ...state,
