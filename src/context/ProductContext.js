@@ -3,12 +3,18 @@ import reducerFunction from "../reducer/reducerFunction";
 
 export const ProductContext = createContext();
 
+
+
 export const ProductProvider = ({ children }) => {
     const [loader, setLoader] = useState(true)
   const [state, dispatch] = useReducer(reducerFunction, {
     products: [],
     cart: [],
     wishlist: [],
+    toast : {
+        tState:false,
+        bg: ""
+      }
   });
   return (
     <>

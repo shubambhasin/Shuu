@@ -5,6 +5,7 @@ import { useProducts } from "../../context/ProductContext";
 import { LOAD_PRODUCTS } from "../../reducer/actions";
 import Sidebar from "../Sidebar";
 import ProductCard from "../ProductCard";
+import Toast from "../Toast";
 
 const NewArrivals = () => {
   const { state, dispatch, loader, setLoader } = useProducts();
@@ -35,6 +36,8 @@ const NewArrivals = () => {
             {state.products.map((data) => {
               return <ProductCard key={data.id} product={data} />;
             })}
+
+            <Toast message="Item added to cart"/>
           </div>
         </div>
       )}

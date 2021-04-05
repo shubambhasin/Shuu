@@ -5,8 +5,10 @@ import {
   INCREASE_QTY,
   LOAD_PRODUCTS,
   MOVE_TO_CART,
+  MOVE_TO_WISHLIST,
   REMOVE_FROM_CART,
   REMOVE_FROM_WISHLIST,
+  TOGGLE_TOAST,
 } from "./actions";
 
 const reducerFunction = (state, { type, payload }) => {
@@ -19,7 +21,7 @@ const reducerFunction = (state, { type, payload }) => {
     case ADD_TO_CART:
       return {
         ...state,
-        cart: [...state.cart, { ...payload, quantity: 1 }],
+        cart: [...state.cart, { ...payload, quantity: 1, inCart: true }],
       };
     case REMOVE_FROM_CART:
       return {
@@ -30,7 +32,10 @@ const reducerFunction = (state, { type, payload }) => {
     case ADD_TO_WISHLIST:
       return {
         ...state,
-        wishlist: [...state.wishlist, { ...payload, quantity: 0 }],
+        wishlist: [
+          ...state.wishlist,
+          { ...payload, quantity: 0, inCart: false },
+        ],
       };
     case REMOVE_FROM_WISHLIST:
       return {
@@ -40,8 +45,9 @@ const reducerFunction = (state, { type, payload }) => {
     case MOVE_TO_CART:
       return {
         ...state,
-        products: [...state.products, { ...payload, quantity: 1 }],
+        cart: [...state.cart, { ...payload, quantity: 1, inCart: true }],
       };
+
     case INCREASE_QTY:
       return {
         ...state,
@@ -59,6 +65,12 @@ const reducerFunction = (state, { type, payload }) => {
             ? { ...item, quantity: item.quantity - 1 }
             : item
         ),
+      };
+
+    case TOGGLE_TOAST:
+      return {
+        ...state,
+        toast: { tState: true, bg: payload },
       };
 
     default:

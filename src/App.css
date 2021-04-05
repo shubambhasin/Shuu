@@ -178,3 +178,25 @@ body {
   font-size: small;
   width: 250px;
 }
+
+/* -------------------toast-------------------- */
+
+.toast
+{
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.toast-green
+{
+  background-color: chartreuse;
+  color: black;
+
+}
+
+.hide-toast
+{
+  display: none;
+}

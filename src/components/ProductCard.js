@@ -1,11 +1,15 @@
 import React from "react";
 import { useProducts } from "../context/ProductContext";
-import { ADD_TO_CART, ADD_TO_WISHLIST, INCREASE_QTY, REMOVE_FROM_CART } from "../reducer/actions";
+import {
+  ADD_TO_CART,
+  ADD_TO_WISHLIST,
+  TOGGLE_TOAST,
+  REMOVE_FROM_CART,
+} from "../reducer/actions";
 
 const ProductCard = ({ product }) => {
   const { state, dispatch } = useProducts();
   const {
-    id,
     name,
     ratings,
     image,
@@ -17,20 +21,57 @@ const ProductCard = ({ product }) => {
     offer,
   } = product;
 
+  // calculate card final price
   const finalPrice = (price, offer) => {
     return price - offer * price * 0.01;
   };
+
+  // checking i product is in car t or not
 
   const isProductInCart = (product) => {
     return state.cart.filter((data) => data.id === product.id);
   };
 
+  const isInWishlist = (product) => {
+    if (state.wishlist.filter((data) => data.id === product.id).length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const moveToWishlist = () => {
+    if (!isInWishlist(product)) {
+      dispatch({ type: ADD_TO_WISHLIST, payload: product });
+      dispatch({ type: REMOVE_FROM_CART, payload: product });
+      // TODO: removes the item from the cart from the home page it self
+    } else {
+      dispatch({ type: REMOVE_FROM_CART, payload: product });
+      // TODO: add toast here.
+    }
+  };
+
+  // hiding toast
+
+  const hideToast = (product) => {
+    setTimeout(() => {
+      dispatch({ type: TOGGLE_TOAST, payload: "green" });
+    }, 1200);
+  };
+
+  // adding product to cart
   const addToCart = (product) => {
     if (isProductInCart(product).length === 0) {
-      console.log(product);
+      console.log("Added in cart", product);
       dispatch({ type: ADD_TO_CART, payload: product });
+      console.log("Added to cart dispatch done ");
+      dispatch({ type: TOGGLE_TOAST, payload: "green" });
+      console.log("toggle toast", state.toast);
+      hideToast();
+      console.log("toast hidden", state.toast);
     } else {
-      dispatch({ type: INCREASE_QTY, payload: product });
+      //   dispatch({ type: INCREASE_QTY, payload: product });
+      alert("Item added in cart already");
     }
   };
   return (
@@ -52,18 +93,23 @@ const ProductCard = ({ product }) => {
       </span>
       <p className="card-category flag-left">{category} </p>
       <span className="flex gap-2">
-        {inStock ? <p> InStock</p> : <p>OUT OF STOCK</p>} {" "}
+        {inStock ? <p> InStock</p> : <p>OUT OF STOCK</p>}{" "}
         {fastDelivery && <p>ExpressDelivery</p>}
       </span>
 
       <span className="equal flex gap-2">
-        <button className="btn btn-blue" onClick={() => addToCart(product)} disabled={!inStock}>
-         {inStock ?  <>Add to Cart</>: <>OUT OF STOCK</>}
-        </button>
         <button
-          className="btn btn-red"
-          onClick={() => dispatch({ type: ADD_TO_WISHLIST, payload: product })}
+          className="btn btn-blue"
+          onClick={() => addToCart(product)}
+          disabled={!inStock}
         >
+          {inStock ? (
+            <> {product.inCart ? "Already in Cart" : "Add to cart"}</>
+          ) : (
+            <>OUT OF STOCK</>
+          )}
+        </button>
+        <button className="btn btn-red" onClick={() => moveToWishlist(product)}>
           Wishlist{" "}
         </button>
       </span>
