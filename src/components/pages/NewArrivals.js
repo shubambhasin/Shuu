@@ -13,17 +13,23 @@ const NewArrivals = () => {
   useEffect(() => {
     (async () => {
       try {
-        const {
-          data: { products },
-        } = await axios.get("/api/products");
+       const products = await axios.get("https://databaseforecomm.shubambhasin.repl.co/products");
 
-        dispatch({ type: LOAD_PRODUCTS, payload: products });
+        console.log(products)
+
+        dispatch({ type: LOAD_PRODUCTS, payload: products.data });
         setLoader(false);
       } catch (err) {
         console.log(err);
       }
     })();
   }, []);
+
+  const filteredProducts = (product) => {
+    const filtered_products = product;
+
+    return filtered_products;
+  };
 
   return (
     <div className="new-arrivals container">
@@ -33,11 +39,11 @@ const NewArrivals = () => {
         <div className="flex gap-4">
           <Sidebar />
           <div className="products-section flex gap-2 f-wrap">
-            {state.products.map((data) => {
-              return <ProductCard key={data.id} product={data} />;
+            {filteredProducts(state.products).map((data) => {
+              return <ProductCard key={data._id} product={data} />;
             })}
 
-            <Toast message="Item added to cart"/>
+            <Toast message="Item added to cart" />
           </div>
         </div>
       )}

@@ -26,7 +26,7 @@ const reducerFunction = (state, { type, payload }) => {
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: state.cart.filter((data) => data.id !== payload.id),
+        cart: state.cart.filter((data) => data._id !== payload._id),
       };
 
     case ADD_TO_WISHLIST:
@@ -40,7 +40,7 @@ const reducerFunction = (state, { type, payload }) => {
     case REMOVE_FROM_WISHLIST:
       return {
         ...state,
-        wishlist: state.wishlist.filter((data) => data.id !== payload.id),
+        wishlist: state.wishlist.filter((data) => data._id !== payload._id),
       };
     case MOVE_TO_CART:
       return {
@@ -52,7 +52,7 @@ const reducerFunction = (state, { type, payload }) => {
       return {
         ...state,
         cart: state.cart.map((item) =>
-          item.id === payload.id
+          item._id === payload._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         ),
@@ -61,7 +61,7 @@ const reducerFunction = (state, { type, payload }) => {
       return {
         ...state,
         cart: state.cart.map((item) =>
-          item.id === payload.id
+          item._id === payload._id
             ? { ...item, quantity: item.quantity - 1 }
             : item
         ),

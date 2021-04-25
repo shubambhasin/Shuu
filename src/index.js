@@ -3,9 +3,6 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { ProductProvider } from "./context/ProductContext";
 
-import { mockServer } from "./server/mockServer";
-
-mockServer();
 ReactDOM.render(
   <React.StrictMode>
     <ProductProvider>

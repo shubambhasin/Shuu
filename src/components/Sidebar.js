@@ -5,11 +5,11 @@ const Sidebar = () => {
     <div className="sidebar flex flex-col">
       <h1 className="h3">Filters</h1>
       <div className="flex align-center gap-1">
-        <input type="radio"/>
+        <input type="radio" name="filter-one"/>
         <label>High to Low</label>
       </div>
       <div className="flex align-center gap-1">
-        <input type="radio"/>
+        <input type="radio" name="filter-one"/>
         <label>Low to High</label>
       </div>
       <div className="flex align-center gap-1">

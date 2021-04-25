@@ -9,7 +9,7 @@ import {
 } from "../reducer/actions";
 
 const CartCard = ({ product }) => {
-  const { name, id, price, quantity, image } = product;
+  const { name, price, quantity, image } = product;
   const { state, dispatch } = useProducts();
 
   const isInWishlist = (product) => {

@@ -29,11 +29,11 @@ const ProductCard = ({ product }) => {
   // checking i product is in car t or not
 
   const isProductInCart = (product) => {
-    return state.cart.filter((data) => data.id === product.id);
+    return state.cart.filter((data) => data._id === product._id);
   };
 
   const isInWishlist = (product) => {
-    if (state.wishlist.filter((data) => data.id === product.id).length === 0) {
+    if (state.wishlist.filter((data) => data._id === product._id).length === 0) {
       return false;
     } else {
       return true;

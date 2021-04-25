@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useProducts } from "../context/ProductContext";
 import CartCard from "./CartCard";
 import emptyCart from "../assets/images/emptyCart.svg";
 import { Link } from "react-router-dom";
 const Cart = () => {
-  const { state, dispatch } = useProducts();
+  const { state } = useProducts();
 
   const totalCartPrice = () => {
     return (state.cart.reduce((a, b) => a.price + b.price))
