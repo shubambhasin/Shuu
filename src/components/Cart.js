@@ -3,6 +3,7 @@ import { useProducts } from "../context/ProductContext";
 import CartCard from "./CartCard";
 import emptyCart from "../assets/images/emptyCart.svg";
 import { Link } from "react-router-dom";
+
 const Cart = () => {
   const { state } = useProducts();
 

@@ -201,7 +201,7 @@ body {
   display: none;
 }
 
-.signup-container
+.signup-container, .login-container 
 {
   border-radius: 5px;
   justify-content:center;
@@ -209,10 +209,6 @@ body {
   gap: 0.3rem;
   width: 400px;
   background-color: rgb(235, 235, 235);
-}
-.signup-container input
-{
-  width: 70%;
 }
 
 .block-center

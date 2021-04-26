@@ -1,16 +1,16 @@
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import { Routes } from "./routes/Routes";
+import { RoutesSwitch } from "./routes/RoutesSwitch";
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <div className="App">
         <Navbar />
-        <Routes />
+        <RoutesSwitch/>
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

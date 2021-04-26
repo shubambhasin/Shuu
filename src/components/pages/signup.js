@@ -1,35 +1,40 @@
 import axios from "axios";
 import React, { useState } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+require("dotenv").config();
 const Signup = () => {
   const [signup, setSignup] = useState({
     name: "",
     email: "",
     password: "",
-    phoneNumber: "",
+    // phoneNumber: "",
   });
 
+  const { login, setLogin, loader, setLoader } = useAuth();
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
-    // console.log(e.target)
     const { name, value } = e.target;
     setSignup({ ...signup, [name]: value });
- 
   };
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log(signup)
-
+    e.preventDefault();
+    console.log(signup);
     try {
+      setLoader(true);
+      const res = await axios.post(
+        "https://databaseForEcomm-1.shubambhasin.repl.co/signup",
+        signup
+      );
+      setLoader(false);
+      navigate("/signup-success");
 
-      const res = await axios.post("https://databaseforecomm.shubambhasin.repl.co/signup", signup)
-      console.log(res)
-
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
-    }
-
-  }
+  };
   return (
     <div className="signup block-center container">
       <h1 className="h2 mb1-rem">SignUp</h1>
@@ -58,7 +63,7 @@ const Signup = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-col gap-01">
+          {/* <div className="flex flex-col gap-01">
             <label>Phone Number</label>
             <input
               type="number"
@@ -67,7 +72,7 @@ const Signup = () => {
               required
               onChange={handleChange}
             />
-          </div>
+          </div> */}
           <div className="flex flex-col gap-01">
             <label>Password</label>
             <input
@@ -88,7 +93,31 @@ const Signup = () => {
               onChange={handleChange}
             />
           </div> */}
-          <button className="btn btn-red"> SignUp</button>
+          <div className="flex">
+            <button className="btn btn-red">
+              {" "}
+              {loader ? (
+                <>
+                  <div className="three col">
+                    <div className="loader" id="loader-4">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                "SignUp"
+              )}
+            </button>
+            <small>
+              {" "}
+              Already a user ?
+              <button className="btn">
+                <Link to="/login">Login here</Link>
+              </button>
+            </small>
+          </div>
         </div>
       </form>
     </div>

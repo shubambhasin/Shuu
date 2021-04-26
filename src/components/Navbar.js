@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
 
 const Navbar = () => {
@@ -9,41 +9,41 @@ const Navbar = () => {
     <div className="navbar">
       <div className="nav-items flex gap-2">
         
-        <Link className="links" to="/">
+        <NavLink className="NavLinks" to="/">
           Home
-        </Link>
-        <Link className="links" to="/new-arrivals">
+        </NavLink>
+        <NavLink className="NavLinks" to="/new-arrivals">
           New Arrivals
-        </Link>
-        <Link className="links" to="/brands">
+        </NavLink>
+        <NavLink className="NavLinks" to="/brands">
           Brands
-        </Link>
-        <Link className="links" to="/men">
+        </NavLink>
+        <NavLink className="NavLinks" to="/men">
           Men
-        </Link>
-        <Link className="links" to="/women">
+        </NavLink>
+        <NavLink className="NavLinks" to="/women">
           Women
-        </Link>
-        <Link className="links" to="/blog">
+        </NavLink>
+        <NavLink className="NavLinks" to="/blog">
           Blog
-        </Link>
-        <Link className="links" to="/contact-us">
+        </NavLink>
+        <NavLink className="NavLinks" to="/contact-us">
           Contact us
-        </Link>
+        </NavLink>
       </div>
       <div className="nav-items flex gap-2">
-        <Link className="links" to="/wishlist">
+        <NavLink className="NavLinks" to="/wishlist">
           Wishlist ({state.wishlist.length})
-        </Link>
-        <Link className="links" to="/cart">
+        </NavLink>
+        <NavLink className="NavLinks" to="/cart">
           Cart  ({state.cart.length})
-        </Link>
-        <Link className="links" to="/profile">
+        </NavLink>
+        <NavLink className="NavLinks" to="/profile">
           Profile
-        </Link>
-        <Link className="links" to="/signup">
+        </NavLink>
+        <NavLink className="NavLinks" to="/signup">
           Signup
-        </Link>
+        </NavLink>
       </div>
     </div>
   );
