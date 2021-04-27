@@ -7,37 +7,48 @@ const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState("");
   const { login, setLogin, loader, setLoader } = useAuth();
-  const navigate = useNavigate()
-
-
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
-
     console.log(user);
-
     try {
       setLoader(true);
       const res = await axios.post(
-        "https://databaseforecomm.shubambhasin.repl.co/signin",
+        "https://databaseForEcomm-1.shubambhasin.repl.co/signin",
         user
       );
-
-      setLoader(false);
-      navigate('/')
-
-      // just to see Login details
-      console.log(res);
+      if (res.status === 200) {
+        setLoader(false);
+        setLogin(true);
+        navigate("/success");
+        const userId = res.data.user.userId;
+        console.log(userId);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ login: true, loginToken: userId })
+        );
+      } else if (res.status === 401) {
+        setLoader(false);
+        console.log("password incorrect")
+        setErrors("password incorrect");
+      } else if (res.status === 404) {
+        setErrors("USer is not registered");
+      }
     } catch (err) {
-      console.log(err);
+      setLoader(false);
+
+    setErrors("Incorrect credentials/ email not registered");
+
+ 
+
+      console.log({"error" :err});
     }
   };
-
   return (
     <div className="login container block-center">
       <h1 className="h2 mb1-rem">Login</h1>
@@ -53,6 +64,7 @@ const Login = () => {
               onChange={handleChange}
               required
             />
+            <small className="f-red bold">{errors}</small>
           </div>
           <div className="flex flex-col gap-01">
             <label>Password</label>
@@ -63,11 +75,13 @@ const Login = () => {
               onChange={handleChange}
               required
             />
+            <small className="f-red bold">{errors}</small>
           </div>
-          <div className="flex">
+          <div className="flex aic gap-2">
             <button className="btn btn-blue">
               {loader ? (
                 <>
+                  {/*########### loader #############*/}
                   <div className="three col">
                     <div className="loader" id="loader-4">
                       <span></span>

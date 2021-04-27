@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-const SignupSuccess = () => {
+const Success = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const SignupSuccess = () => {
   }, []);
   return (
     <div className="signup-success block-center container">
-      <h1>SignUp Successful ! </h1>
+      <h1>Operation Successful ! </h1>
       <p>Redirecting to Home page</p>
       <div className="three col">
         <div className="loader" id="loader-4">
@@ -26,4 +26,4 @@ const SignupSuccess = () => {
   );
 };
 
-export default SignupSuccess;
+export default Success;

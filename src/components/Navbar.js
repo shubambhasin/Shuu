@@ -1,14 +1,19 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 
 const Navbar = () => {
+  const { state, dispatch } = useProducts();
+  const { login, setLogin } = useAuth();
 
-  const { state, dispatch } = useProducts()
+  const signOut = () => {
+    setLogin(false);
+    localStorage.setItem("user", JSON.stringify({ login: false }));
+  };
   return (
     <div className="navbar">
       <div className="nav-items flex gap-2">
-        
         <NavLink className="NavLinks" to="/">
           Home
         </NavLink>
@@ -36,14 +41,21 @@ const Navbar = () => {
           Wishlist ({state.wishlist.length})
         </NavLink>
         <NavLink className="NavLinks" to="/cart">
-          Cart  ({state.cart.length})
+          Cart ({state.cart.length})
         </NavLink>
         <NavLink className="NavLinks" to="/profile">
           Profile
         </NavLink>
-        <NavLink className="NavLinks" to="/signup">
-          Signup
-        </NavLink>
+        {login && (
+          <button className="btn btn-red" onClick={signOut}>
+            SignOut
+          </button>
+        )}
+        {!login && (
+          <NavLink className="NavLinks" to="/signup">
+            Signup
+          </NavLink>
+        )}
       </div>
     </div>
   );

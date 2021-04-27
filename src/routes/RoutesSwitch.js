@@ -9,7 +9,7 @@ import Men from "../components/pages/Men";
 import NewArrivals from "../components/pages/NewArrivals";
 import Profile from "../components/pages/Profile";
 import Signup from "../components/pages/signup";
-import SignupSuccess from "../components/pages/SignupSuccess";
+import Success from "../components/pages/Success";
 import Women from "../components/pages/Women";
 import Wishlist from "../components/Wishlist";
 
@@ -27,7 +27,7 @@ export const RoutesSwitch = () => {
       <Route path="/contact-us"  element={<Contact/>} />
       <Route path="/blog"  element={<Blog/>} />
       <Route path="/signup"  element={<Signup/>} />
-      <Route path="/signup-success"  element={<SignupSuccess/>} />
+      <Route path="/success"  element={<Success/>} />
       <Route path="/login"  element={<Login/>} />      
     </Routes>
   );

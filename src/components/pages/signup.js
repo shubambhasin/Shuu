@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 require("dotenv").config();
 const Signup = () => {
@@ -10,8 +10,7 @@ const Signup = () => {
     password: "",
     // phoneNumber: "",
   });
-
-  const { login, setLogin, loader, setLoader } = useAuth();
+  const { setLogin, loader, setLoader } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,8 +27,8 @@ const Signup = () => {
         signup
       );
       setLoader(false);
-      navigate("/signup-success");
-
+      setLogin(true);
+      navigate("/success");
       console.log(res);
     } catch (err) {
       console.log(err);
@@ -93,7 +92,7 @@ const Signup = () => {
               onChange={handleChange}
             />
           </div> */}
-          <div className="flex">
+          <div className="flex aic gap-2">
             <button className="btn btn-red">
               {" "}
               {loader ? (
@@ -113,9 +112,9 @@ const Signup = () => {
             <small>
               {" "}
               Already a user ?
-              <button className="btn">
-                <Link to="/login">Login here</Link>
-              </button>
+              <NavLink className="m1-rem" to="/login">
+                Login here
+              </NavLink>
             </small>
           </div>
         </div>

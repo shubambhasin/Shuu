@@ -1,14 +1,19 @@
-import React from "react";
-import { useProducts } from "../../context/ProductContext";
+import React, { useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 const Home = () => {
-  
-    const { state, dispatch } = useProducts()
- 
-    return (
+
+  const { login, setLogin } = useAuth()
+
+  useEffect(() => {
+    JSON.parse(localStorage.getItem("user")).login ? setLogin(true) : setLogin(false) 
+  })
+
+  return (
     <div className="home container">
       <h1 className="h1">Home</h1>
-            
-     </div>
+      <p> {login ? "Home" : "Not home"}</p>
+    </div>
   );
 };
 
