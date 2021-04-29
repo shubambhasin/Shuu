@@ -7,6 +7,7 @@ import Home from "../components/pages/Home";
 import Login from "../components/pages/login";
 import Men from "../components/pages/Men";
 import NewArrivals from "../components/pages/NewArrivals";
+import ProductDetailPage from "../components/pages/ProductDetailPage";
 import Profile from "../components/pages/Profile";
 import Signup from "../components/pages/signup";
 import Success from "../components/pages/Success";
@@ -29,6 +30,11 @@ export const RoutesSwitch = () => {
       <Route path="/signup"  element={<Signup/>} />
       <Route path="/success"  element={<Success/>} />
       <Route path="/login"  element={<Login/>} />      
+      <Route path="/products/:id">
+
+        <ProductDetailPage />
+
+      </Route>      
     </Routes>
   );
 };

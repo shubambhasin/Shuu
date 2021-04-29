@@ -6,6 +6,7 @@ import { LOAD_PRODUCTS } from "../../reducer/actions";
 import Sidebar from "../Sidebar";
 import ProductCard from "../ProductCard";
 import Toast from "../Toast";
+import { NavLink } from "react-router-dom";
 
 const NewArrivals = () => {
   const { state, dispatch, loader, setLoader } = useProducts();
@@ -40,7 +41,7 @@ const NewArrivals = () => {
           <Sidebar />
           <div className="products-section flex gap-2 f-wrap">
             {filteredProducts(state.products).map((data) => {
-              return <ProductCard key={data._id} product={data} />;
+              return <NavLink to={`/products/${data._id}`}><ProductCard key={data._id} product={data} /></NavLink>;
             })}
 
             <Toast message="Item added to cart" />

@@ -18,15 +18,15 @@ const Navbar = () => {
           Home
         </NavLink>
         <NavLink className="NavLinks" to="/new-arrivals">
-          New Arrivals
+          Moms
         </NavLink>
         <NavLink className="NavLinks" to="/brands">
-          Brands
+          Babies
         </NavLink>
         <NavLink className="NavLinks" to="/men">
-          Men
+          Clothing
         </NavLink>
-        <NavLink className="NavLinks" to="/women">
+        {/* <NavLink className="NavLinks" to="/women">
           Women
         </NavLink>
         <NavLink className="NavLinks" to="/blog">
@@ -34,7 +34,7 @@ const Navbar = () => {
         </NavLink>
         <NavLink className="NavLinks" to="/contact-us">
           Contact us
-        </NavLink>
+        </NavLink> */}
       </div>
       <div className="nav-items flex gap-2">
         <NavLink className="NavLinks" to="/wishlist">

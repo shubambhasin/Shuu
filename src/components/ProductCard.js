@@ -7,6 +7,11 @@ import {
   REMOVE_FROM_CART,
 } from "../reducer/actions";
 
+  // calculate card final price
+  export const finalPrice = (price, offer) => {
+    return price - offer * price * 0.01;
+  };
+
 const ProductCard = ({ product }) => {
   const { state, dispatch } = useProducts();
   const {
@@ -21,10 +26,6 @@ const ProductCard = ({ product }) => {
     offer,
   } = product;
 
-  // calculate card final price
-  const finalPrice = (price, offer) => {
-    return price - offer * price * 0.01;
-  };
 
   // checking i product is in car t or not
 
