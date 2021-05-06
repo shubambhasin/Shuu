@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useProducts } from "../context/ProductContext";
 import WishlistCard from "./WishlistCard";
 import emptyCart from "../assets/images/emptyCart.svg";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { FILL_WISHLIST } from "../reducer/actions";
 const Wishlist = () => {
   const { state, dispatch } = useProducts();
+
+  useEffect(() => {
+
+    (async() => {
+
+      try{
+
+        const { data } = await axios.get("https://databaseforecomm-1.shubambhasin.repl.co/wishlist")
+
+        console.log(data)
+
+        dispatch({ type: FILL_WISHLIST, payload: data})
+
+      }catch(error)
+      {
+        console.error(error)
+      }
+
+    })()
+
+  }, [])
   return (
     <div className="wishlist container">
       {/* -------------Checking if wishlist is empty or not hanece showing the banner------------- */}

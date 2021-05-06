@@ -76,27 +76,31 @@ const ProductCard = ({ product }) => {
     }
   };
   return (
-    <div className="product-card br10px">
+    <div className="product-card">
       <img src={image} alt="product-card" className="card-img responsive" />
-      <span className="flex gap-2">
+     
+     <div className="p03rem">
+     <span className="flex flex-col">
+
+     <span className="flex gap-2">
         <p className="card-brand bold">{brand}</p>
         <p className="card-name">{name}</p>
       </span>
-      <span className="flex gap-2">
-        <p>
+        
           <span>
             Rs. <span className="strike bold">{Number(`${price}`)} </span>{" "}
             {Number(finalPrice(price, offer))}{" "}
             <span className="f-red"> ({offer}% off)</span>
           </span>
-        </p>{" "}
+        
         <p className={`star-${Math.floor(`${ratings}`)}`}></p>
       </span>
       <p className="card-category flag-left">{category} </p>
-      <span className="flex gap-2">
+      <small className="flex gap-2 smaller">
         {inStock ? <p> InStock</p> : <p>OUT OF STOCK</p>}{" "}
         {fastDelivery && <p>ExpressDelivery</p>}
-      </span>
+      </small>
+     </div>
 
       {/* <span className="equal flex gap-2">
         <button

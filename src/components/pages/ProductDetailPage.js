@@ -56,6 +56,18 @@ const ProductDetailPage = () => {
       dispatch({ type: REMOVE_FROM_CART, payload: product });
       // TODO: add toast here.
     }
+
+    (async() => {
+        try{
+          
+      const res = await axios.post("https://databaseforecomm-1.shubambhasin.repl.co/wishlist", product)
+      console.log(res)
+        }
+        catch(error)
+        {
+          console.log({error: error})
+        }
+    })()
   };
 
   // adding product to cart

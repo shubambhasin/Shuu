@@ -11,6 +11,9 @@ export const MOVE_TO_CART = "MOVE_TO_CART"
 export const TOGGLE_TOAST = "TOGGLE_TOAST"
 export const MOVE_TO_WISHLIST = "MOVE_TO_WISHLIST"
 export const HIGH_TO_LOW = 'HIGH_TO_LOW'
-export const LOW_TO_HIGH = 'HIGH_TO_LOW'
+export const LOW_TO_HIGH = 'LOW_TO_HIGH'
 export const FILL_CART = "FILL_CART"
+export const FILL_WISHLIST = "FILL_WISHLIST"
+export const INSTOCK_TOGGLE = "INSTOCK_TOGGLE"
+export const FAST_DELIVERY = "FAST_DELIVERY"
 

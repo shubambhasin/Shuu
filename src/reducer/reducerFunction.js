@@ -2,11 +2,15 @@ import {
   ADD_TO_CART,
   ADD_TO_WISHLIST,
   DECREASE_QTY,
+  FAST_DELIVERY,
   FILL_CART,
+  FILL_WISHLIST,
+  HIGH_TO_LOW,
   INCREASE_QTY,
+  INSTOCK_TOGGLE,
   LOAD_PRODUCTS,
+  LOW_TO_HIGH,
   MOVE_TO_CART,
-  MOVE_TO_WISHLIST,
   REMOVE_FROM_CART,
   REMOVE_FROM_WISHLIST,
   TOGGLE_TOAST,
@@ -68,16 +72,43 @@ const reducerFunction = (state, { type, payload }) => {
         ),
       };
     case FILL_CART:
-      return{
+      return {
         ...state,
-        cart: [...payload]
-      }
+        cart: [...payload],
+      };
+    case FILL_WISHLIST:
+      return {
+        ...state,
+        wishlist: [...payload],
+      };
+
+    case HIGH_TO_LOW:
+      return {
+        ...state,
+        sortBy: HIGH_TO_LOW,
+      };
+    case LOW_TO_HIGH:
+      return {
+        ...state,
+        sortBy: LOW_TO_HIGH,
+      };
 
     case TOGGLE_TOAST:
       return {
         ...state,
         toast: { tState: true, bg: payload },
       };
+
+    case INSTOCK_TOGGLE: 
+    return {
+      ...state, 
+      inStock: !state.inStock
+    }
+    case FAST_DELIVERY: 
+    return {
+      ...state, 
+      inStock: !state.fastDelivery
+    }
 
     default:
       console.log("unknown event");

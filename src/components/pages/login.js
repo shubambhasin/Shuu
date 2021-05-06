@@ -25,13 +25,13 @@ const Login = () => {
       if (res.status === 200) {
         setLoader(false);
         setLogin(true);
-        navigate("/success");
         const userId = res.data.user.userId;
         console.log(userId);
         localStorage.setItem(
           "user",
           JSON.stringify({ login: true, loginToken: userId })
-        );
+          );
+          navigate("/success");
       } else if (res.status === 401) {
         setLoader(false);
         console.log("password incorrect")

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
+import { HIGH_TO_LOW, LOW_TO_HIGH } from "../reducer/actions";
 import reducerFunction from "../reducer/reducerFunction";
 
 export const ProductContext = createContext();
@@ -14,7 +15,10 @@ export const ProductProvider = ({ children }) => {
     toast : {
         tState:false,
         bg: ""
-      }
+      },
+      inStock: true,
+      sortBy: "",
+      fastDelivery: true
   });
   return (
     <>

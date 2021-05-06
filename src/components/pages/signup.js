@@ -28,6 +28,10 @@ const Signup = () => {
       );
       setLoader(false);
       setLogin(true);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ login: true})
+        );
       navigate("/success");
       console.log(res);
     } catch (err) {

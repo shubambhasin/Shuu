@@ -60,8 +60,8 @@ const Navbar = () => {
           </button>
         )}
         {!login && (
-          <NavLink className="NavLinks" to="/signup">
-            Signup
+          <NavLink className="NavLinks" to="/login">
+            Login
           </NavLink>
         )}
       </div>

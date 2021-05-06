@@ -9,7 +9,8 @@ const Home = () => {
   const { login, setLogin } = useAuth();
 
   useEffect(() => {
-    JSON.parse(localStorage.getItem("user")) ? setLogin(true) : setLogin(false);
+    console.log(JSON.parse(localStorage.getItem("user")))
+    JSON.parse(localStorage.getItem("user")).login ? setLogin(true) : setLogin(false);
   });
 
   return (
