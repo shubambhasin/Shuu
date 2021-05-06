@@ -13,7 +13,7 @@ const CartCard = ({ product }) => {
   const { state, dispatch } = useProducts();
 
   const isInWishlist = (product) => {
-    if (state.wishlist.filter((data) => data.id === product.id).length === 0) {
+    if (state.wishlist.filter((data) => data._id === product._id).length === 0) {
       return false;
     } else {
       return true;

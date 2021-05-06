@@ -42,6 +42,7 @@ const Signup = () => {
           <div className="flex flex-col gap-01">
             <label>Name</label>
             <input
+              className="input input-red"
               type="text"
               name="name"
               required
@@ -54,6 +55,7 @@ const Signup = () => {
           <div className="flex flex-col gap-01">
             <label>Email</label>
             <input
+            className="input input-red"
               type="email"
               name="email"
               required
@@ -75,6 +77,7 @@ const Signup = () => {
           <div className="flex flex-col gap-01">
             <label>Password</label>
             <input
+            className="input input-red"
               type="password"
               name="password"
               placeholder="Password"
@@ -93,7 +96,7 @@ const Signup = () => {
             />
           </div> */}
           <div className="flex aic gap-2">
-            <button className="btn btn-red">
+            <button className="btn btn-orange">
               {" "}
               {loader ? (
                 <>

@@ -11,19 +11,27 @@ const Navbar = () => {
     setLogin(false);
     localStorage.setItem("user", JSON.stringify({ login: false }));
   };
+
+  const activeStyle={
+    color: "#ff7100"
+  }
   return (
     <div className="navbar">
+      <NavLink className="NavLinks brand-logo" to="/">
+        <h1 className="h4 bold">Cart4Mothers</h1>
+
+      </NavLink>
       <div className="nav-items flex gap-2">
-        <NavLink className="NavLinks" to="/">
+        <NavLink className="NavLinks bold" end activeStyle={activeStyle} to="/">
           Home
         </NavLink>
-        <NavLink className="NavLinks" to="/new-arrivals">
+        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/new-arrivals">
           Moms
         </NavLink>
-        <NavLink className="NavLinks" to="/brands">
+        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/brands">
           Babies
         </NavLink>
-        <NavLink className="NavLinks" to="/men">
+        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/men">
           Clothing
         </NavLink>
         {/* <NavLink className="NavLinks" to="/women">
@@ -37,13 +45,13 @@ const Navbar = () => {
         </NavLink> */}
       </div>
       <div className="nav-items flex gap-2">
-        <NavLink className="NavLinks" to="/wishlist">
+        <NavLink className="NavLinks" activeStyle={activeStyle} to="/wishlist">
           Wishlist ({state.wishlist.length})
         </NavLink>
-        <NavLink className="NavLinks" to="/cart">
+        <NavLink className="NavLinks" activeStyle={activeStyle} to="/cart">
           Cart ({state.cart.length})
         </NavLink>
-        <NavLink className="NavLinks" to="/profile">
+        <NavLink className="NavLinks" activeStyle={activeStyle} to="/profile">
           Profile
         </NavLink>
         {login && (

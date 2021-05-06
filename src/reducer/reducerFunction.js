@@ -2,6 +2,7 @@ import {
   ADD_TO_CART,
   ADD_TO_WISHLIST,
   DECREASE_QTY,
+  FILL_CART,
   INCREASE_QTY,
   LOAD_PRODUCTS,
   MOVE_TO_CART,
@@ -66,6 +67,11 @@ const reducerFunction = (state, { type, payload }) => {
             : item
         ),
       };
+    case FILL_CART:
+      return{
+        ...state,
+        cart: [...payload]
+      }
 
     case TOGGLE_TOAST:
       return {

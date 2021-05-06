@@ -1,13 +1,37 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useProducts } from "../../context/ProductContext";
-import { ADD_TO_CART, ADD_TO_WISHLIST, REMOVE_FROM_CART, TOGGLE_TOAST } from "../../reducer/actions";
+import {
+  ADD_TO_CART,
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_CART,
+  TOGGLE_TOAST,
+} from "../../reducer/actions";
+import "./productDetail.css";
 import finalPrice from "../ProductCard";
+import { NavLink } from "react-router-dom";
 
 const ProductDetailPage = () => {
   const { state, dispatch } = useProducts();
 
+  const [particularProduct, setParticularProduct] = useState([]);
+
   const { id } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(
+          `https://databaseforecomm-1.shubambhasin.repl.co/products/${id}`
+        );
+        setParticularProduct([...res.data]);
+        console.log(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   const isProductInCart = (product) => {
     return state.cart.filter((data) => data._id === product._id);
@@ -48,51 +72,76 @@ const ProductDetailPage = () => {
       //   dispatch({ type: INCREASE_QTY, payload: product });
       alert("Item added in cart already");
     }
+
+    (async () => {
+      try {
+        const res = await axios.post(
+          "https://databaseforecomm-1.shubambhasin.repl.co/cart",
+          {...product, quantity: 1, isInCart: true}
+        );
+        console.log(res);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   };
 
   return (
-    <div>
-      <h1 className="">Details</h1>
-      {state.products
-        .filter((data) => data._id === id)
-        .map((product) => {
-          return (
-            <div>
-              <div className="product-detail container flex gap-2">
-                <img
-                  src={product.image}
-                  alt="product-img"
-                  className="responsive"
-                />
-                <h1 className="bold h2 larger">{product.name}</h1>
+    <div className="container">
+      <div className="flex jcsb aic">
+        {" "}
+        <h1 className="h1 mtb1-rem">Details</h1>
+        <NavLink to="/new-arrivals" className="btn btn-green">
+          Go back{" "}
+        </NavLink>
+      </div>
+      {particularProduct.length !== 0 && (
+        <>
+          {particularProduct.map((product) => {
+            return (
+              <div>
+                <div className="product-detail flex jcc gap-2">
+                  <img
+                    src={product.image}
+                    alt="product-img"
+                    className="responsive br10px"
+                  />
+                  <div className="product-detail-info">
+                    <h1 className="bold h2 larger">{product.name}</h1>
 
-                <p className="h3">Rs {product.price}</p>
-                {/* <p>{finalPrice(`${product.price}`, `${product.offer}`)}</p> */}
+                    <p className="h3">Rs {product.price}</p>
+                    {/* <p>{finalPrice(`${product.price}`, `${product.offer}`)}</p> */}
 
-                <span className="equal flex gap-2">
-                  <button
-                    className="btn btn-blue"
-                    onClick={() => addToCart(product)}
-                    disabled={!product.inStock}
-                  >
-                    {product.inStock ? (
-                      <> {product.inCart ? "Already in Cart" : "Add to cart"}</>
-                    ) : (
-                      <>OUT OF STOCK</>
-                    )}
-                  </button>
-                  <button
-                    className="btn btn-red"
-                    onClick={() => moveToWishlist(product)}
-                  >
-                    Wishlist{" "}
-                  </button>
-                </span>
+                    <span className="equal flex gap-2">
+                      <button
+                        className="btn btn-blue"
+                        onClick={() => addToCart(product)}
+                        disabled={!product.inStock}
+                      >
+                        {product.inStock ? (
+                          <>
+                            {" "}
+                            {product.inCart ? "Already in Cart" : "Add to cart"}
+                          </>
+                        ) : (
+                          <>OUT OF STOCK</>
+                        )}
+                      </button>
+                      <button
+                        className="btn btn-red"
+                        onClick={() => moveToWishlist(product)}
+                      >
+                        Wishlist{" "}
+                      </button>
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      <button onClick={() => console.log(state.products)}></button>
+            );
+          })}
+        </>
+      )}
+      {particularProduct.length === 0 && <h1>NO product found</h1>}
     </div>
   );
 };

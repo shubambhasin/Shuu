@@ -1,63 +1,98 @@
 import React, { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import headerImage from "../../assets/headerImage.jpg";
+// import hero from "../../assets/hero.jpg";
+import hero from "../../assets/hero.svg";
+import "./home.css";
+import { NavLink } from "react-router-dom";
 const Home = () => {
   const { login, setLogin } = useAuth();
 
   useEffect(() => {
-    JSON.parse(localStorage.getItem("user")).login
-      ? setLogin(true)
-      : setLogin(false);
+    JSON.parse(localStorage.getItem("user")) ? setLogin(true) : setLogin(false);
   });
 
   return (
-    <div className="home">
-      Items
-      <img src={headerImage} alt="header" className="responsive" />
-      <div className="home-3 container">
-        <span className="home-3-item"> 
-          <img
-            src="https://i.pinimg.com/originals/82/9a/6d/829a6d2d0ab807fe4188ff52c1c74e6c.jpg"
-            alt=""
-            className="responsive"
-          />
-        </span>
-        <span className="home-3-item">
-          <img
-            src="https://img1.exportersindia.com/product_images/bc-full/dir_118/3529371/mothers-care-for-babies-1919485.jpg"
-            alt=""
-            className="responsive"
-          />
-        </span>
-        <span className="home-3-item">
-          <img
-            src="https://www.maate.in/blog/wp-content/uploads/2016/08/64I1693-scaled.jpg"
-            alt=""
-            className="responsive"
-          />
-        </span>
+    <div className="home home-container">
+      
+        <div className="hero">
+          <div className="flex flex-col jcc aic w-50">
+           <div className="">
+           <header>
+              <h1 className="h1 f-xx-lg mtb1-rem">
+                {" "}
+                Mother and baby care range starts ar just 499/-
+              </h1>
+            </header>
+            <NavLink to="/new-arrivals" className="btn btn-lg btn-green mt3-rem">Shop now</NavLink>
+           </div>
+          </div>
+          <img src={hero} alt="hero" className="responsive" />
+        </div>
+      
+      <div className="tiles-3 container">
+        <h1 className="h3 mtb1-rem">Mothers care</h1>
+      
+        <div className=" flex gap-2  ">
+          <div className="tile pop">
+            <NavLink to="/new-arrivals">
+              <img
+                src="https://beautyhealthtips.in/wp-content/uploads/2014/05/Health-care-tips-for-babies-during-this-summer.jpg"
+                className="responsive"
+                alt="baby tile"
+              />
+            </NavLink>
+          </div>
+          <div className="tile responsive pop" alt="baby tile">
+          <NavLink to="/new-arrivals">
+              <img
+                src="https://beautyhealthtips.in/wp-content/uploads/2014/05/Health-care-tips-for-babies-during-this-summer.jpg"
+                className="responsive"
+                alt="baby tile"
+              />
+            </NavLink>
+          </div>
+          <div className="tile responsive pop" alt="baby tile">
+            <NavLink to="/">
+              <img
+                src="https://beautyhealthtips.in/wp-content/uploads/2014/05/Health-care-tips-for-babies-during-this-summer.jpg"
+                className="responsive"
+                alt="baby tile"
+              />
+            </NavLink>
+          </div>
+        </div>
       </div>
-
-      <h1 className="h1">Mother's Care</h1>
-      <div className="container col-3">
-        <span>
-          <img
-            src="https://i.pinimg.com/originals/82/9a/6d/829a6d2d0ab807fe4188ff52c1c74e6c.jpg"
-            alt=""
-          />
-        </span>
-        <span>
-          <img
-            src="https://cdn.fcglcdn.com/brainbees/images/products/219x265/8688629a.webp"
-            alt=""
-          />
-        </span>
-        <span>
-          <img
-            src="https://cdn.fcglcdn.com/brainbees/images/products/219x265/8071040a.webp"
-            alt=""
-          />
-        </span>
+      <div className="tiles-3 container">
+        <h1 className="h3 mtb1-rem">Mothers care</h1>
+        <NavLink to="/">HEllo</NavLink>
+        <div className=" flex gap-2  ">
+          <div className="tile pop">
+            <NavLink to="/new-arrivals">
+              <img
+                src="https://beautyhealthtips.in/wp-content/uploads/2014/05/Health-care-tips-for-babies-during-this-summer.jpg"
+                className="responsive"
+                alt="baby tile"
+              />
+            </NavLink>
+          </div>
+          <div className="tile responsive pop" alt="baby tile">
+            <img
+              src="https://beautyhealthtips.in/wp-content/uploads/2014/05/Health-care-tips-for-babies-during-this-summer.jpg"
+              className="responsive"
+              alt="baby tile"
+            />
+          </div>
+          <div className="tile responsive pop" alt="baby tile">
+            <NavLink to="/">
+              <img
+                src="https://beautyhealthtips.in/wp-content/uploads/2014/05/Health-care-tips-for-babies-during-this-summer.jpg"
+                className="responsive"
+                alt="baby tile"
+              />
+            </NavLink>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useProducts } from "../context/ProductContext";
 import CartCard from "./CartCard";
 import emptyCart from "../assets/images/emptyCart.svg";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { FILL_CART } from "../reducer/actions";
 
 const Cart = () => {
-  const { state } = useProducts();
+  const { state, dispatch } = useProducts();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const {data} = await axios.get(
+          "https://databaseforecomm-1.shubambhasin.repl.co/cart"
+        );
+
+        console.log(data);
+        dispatch({ type: FILL_CART, payload: data });
+
+        console.log(state);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   const totalCartPrice = () => {
-    return (state.cart.reduce((a, b) => a.price + b.price))
+    return state.cart.reduce((a, b) => a.price + b.price);
   };
   return (
     <div className="cart container">
@@ -33,11 +52,17 @@ const Cart = () => {
           <div className="flex gap-4 ">
             <div className="product-cart p1-rem">
               {state.cart.map((data) => {
-                return <CartCard key={data.id} product={data} />;
+                return <CartCard key={data._id} product={data} />;
               })}
             </div>
             <div className="cart-total p1-rem">
-                <button onClick={() => state.cart.reduce((a,b) => a.quantity + b.quanriry )}>Total</button>
+              <button
+                onClick={() =>
+                  state.cart.reduce((a, b) => a.quantity + b.quantity)
+                }
+              >
+                Total
+              </button>
               <h1>Total items: </h1>
               Total Amount {() => totalCartPrice()}
             </div>

@@ -10,4 +10,7 @@ export const REMOVE_LOADER = "REMOVE_LOADER"
 export const MOVE_TO_CART = "MOVE_TO_CART"
 export const TOGGLE_TOAST = "TOGGLE_TOAST"
 export const MOVE_TO_WISHLIST = "MOVE_TO_WISHLIST"
+export const HIGH_TO_LOW = 'HIGH_TO_LOW'
+export const LOW_TO_HIGH = 'HIGH_TO_LOW'
+export const FILL_CART = "FILL_CART"
 

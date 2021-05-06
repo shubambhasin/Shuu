@@ -12,6 +12,10 @@ body {
 }
 
 /* -----------misc-------------- */
+
+.NavLinks {
+  color: black;
+}
 .center-banners {
   display: flex;
   width: 100%;
@@ -58,13 +62,14 @@ body {
   color: grey;
 }
 .container {
-  margin-top: 6rem;
+  margin-top: 20px;
 }
 .loader {
   align-self: center;
   justify-self: center;
 }
 .navbar {
+  border-bottom: 1px solid rgba(216, 216, 216, 0.521);
   position: sticky;
   top: 0;
   left: 0;
@@ -74,8 +79,7 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 70px;
-  box-shadow: 0 5px 20px 5px rgb(241, 241, 241);
-  background-color: rgb(255, 221, 221);
+  background-color: #ffffff;
   font-size: small;
   z-index: 100;
 }
@@ -140,7 +144,6 @@ body {
   min-height: 100vh;
   align-self: flex-start;
   padding: 1rem;
-
 }
 
 .strike {
@@ -164,17 +167,14 @@ body {
   flex: 75%;
 }
 .cart-total {
-  
   background-color: rgb(241, 254, 255);
   flex: 25%;
-
 }
 .cart-container {
 }
 
 /* -------------wishlist------------------ */
-.wishlist-flex
-{
+.wishlist-flex {
   justify-content: center;
 }
 .wishlist-card {
@@ -184,59 +184,50 @@ body {
 
 /* -------------------toast-------------------- */
 
-.toast
-{
+.toast {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
   padding: 0.5rem 1rem;
 }
 
-.toast-green
-{
+.toast-green {
   background-color: chartreuse;
   color: black;
-
 }
 
-.hide-toast
-{
+.hide-toast {
   display: none;
 }
 
-.signup-container, .login-container 
-{
+.signup-container,
+.login-container {
   border-radius: 5px;
-  justify-content:center;
-  align-items:stretch;
+  justify-content: center;
+  align-items: stretch;
   gap: 0.3rem;
   width: 400px;
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(255, 229, 217);
+  box-shadow: 0 0 10px 1px rgb(245, 245, 245);
 }
-.block-center
-{
+.block-center {
   display: grid;
   place-items: center;
 }
 
-.gap-01
-{
-  gap: 0.2rem
+.gap-01 {
+  gap: 0.2rem;
 }
 
-.home
-{
+.home {
   position: relative;
-    z-index: -10000;
 }
 
-.home-3
-{
+.home-3 {
   width: 100%;
   display: flex;
 }
 
-.home-3-item
-{
-  flex: 20%
+.home-3-item {
+  flex: 20%;
 }

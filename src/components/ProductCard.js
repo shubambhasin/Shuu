@@ -76,7 +76,7 @@ const ProductCard = ({ product }) => {
     }
   };
   return (
-    <div className="product-card">
+    <div className="product-card br10px">
       <img src={image} alt="product-card" className="card-img responsive" />
       <span className="flex gap-2">
         <p className="card-brand bold">{brand}</p>
@@ -98,7 +98,7 @@ const ProductCard = ({ product }) => {
         {fastDelivery && <p>ExpressDelivery</p>}
       </span>
 
-      <span className="equal flex gap-2">
+      {/* <span className="equal flex gap-2">
         <button
           className="btn btn-blue"
           onClick={() => addToCart(product)}
@@ -113,7 +113,7 @@ const ProductCard = ({ product }) => {
         <button className="btn btn-red" onClick={() => moveToWishlist(product)}>
           Wishlist{" "}
         </button>
-      </span>
+      </span> */}
     </div>
   );
 };
