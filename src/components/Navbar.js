@@ -1,46 +1,69 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 
 const Navbar = () => {
+  const { state, dispatch } = useProducts();
+  const { login, setLogin } = useAuth();
 
-  const { state, dispatch } = useProducts()
+  const signOut = () => {
+    setLogin(false);
+    localStorage.setItem("user", JSON.stringify({ login: false }));
+  };
+
+  const activeStyle={
+    color: "#ff7100"
+  }
   return (
     <div className="navbar">
+      <NavLink className="NavLinks brand-logo" to="/">
+        <h1 className="h4 bold">Cart4Mothers</h1>
+
+      </NavLink>
       <div className="nav-items flex gap-2">
-        
-        <Link className="links" to="/">
+        <NavLink className="NavLinks bold" end activeStyle={activeStyle} to="/">
           Home
-        </Link>
-        <Link className="links" to="/new-arrivals">
-          New Arrivals
-        </Link>
-        <Link className="links" to="/brands">
-          Brands
-        </Link>
-        <Link className="links" to="/men">
-          Men
-        </Link>
-        <Link className="links" to="/women">
+        </NavLink>
+        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/new-arrivals">
+          Moms
+        </NavLink>
+        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/brands">
+          Babies
+        </NavLink>
+        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/men">
+          Clothing
+        </NavLink>
+        {/* <NavLink className="NavLinks" to="/women">
           Women
-        </Link>
-        <Link className="links" to="/blog">
+        </NavLink>
+        <NavLink className="NavLinks" to="/blog">
           Blog
-        </Link>
-        <Link className="links" to="/contact-us">
+        </NavLink>
+        <NavLink className="NavLinks" to="/contact-us">
           Contact us
-        </Link>
+        </NavLink> */}
       </div>
       <div className="nav-items flex gap-2">
-        <Link className="links" to="/wishlist">
+        <NavLink className="NavLinks" activeStyle={activeStyle} to="/wishlist">
           Wishlist ({state.wishlist.length})
-        </Link>
-        <Link className="links" to="/cart">
-          Cart  ({state.cart.length})
-        </Link>
-        <Link className="links" to="/profile">
+        </NavLink>
+        <NavLink className="NavLinks" activeStyle={activeStyle} to="/cart">
+          Cart ({state.cart.length})
+        </NavLink>
+        <NavLink className="NavLinks" activeStyle={activeStyle} to="/profile">
           Profile
-        </Link>
+        </NavLink>
+        {login && (
+          <button className="btn btn-red" onClick={signOut}>
+            SignOut
+          </button>
+        )}
+        {!login && (
+          <NavLink className="NavLinks" to="/login">
+            Login
+          </NavLink>
+        )}
       </div>
     </div>
   );

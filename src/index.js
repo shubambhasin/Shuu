@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
 import { ProductProvider } from "./context/ProductContext";
 
-import { mockServer } from "./server/mockServer";
-
-mockServer();
 ReactDOM.render(
   <React.StrictMode>
     <ProductProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </ProductProvider>
   </React.StrictMode>,
   document.getElementById("root")

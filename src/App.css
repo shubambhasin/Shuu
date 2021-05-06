@@ -10,10 +10,49 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-.align-center
-{
-  align-items: center;
 
+/* -----------misc-------------- */
+.p03rem
+{
+  padding: 0.3rem;
+}
+.NavLinks {
+  color: black;
+}
+.center-banners {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+.banners {
+  width: 200px;
+  height: 200px;
+}
+
+.pop-out {
+  transition: 0.2s;
+}
+.pop-out:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 20px 5px rgb(238, 238, 238);
+}
+
+.links {
+  color: black;
+}
+.outline-hover {
+  border: 1px solid transparent;
+  transition: 0.2s;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+.outline-hover:hover {
+  border: 1px solid grey;
+}
+.align-center {
+  align-items: center;
 }
 
 .j-space-between {
@@ -26,14 +65,15 @@ body {
   color: grey;
 }
 .container {
-  margin-top: 6rem;
+  margin-top: 20px;
 }
 .loader {
   align-self: center;
   justify-self: center;
 }
 .navbar {
-  position: fixed;
+  border-bottom: 1px solid rgba(216, 216, 216, 0.521);
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -42,7 +82,7 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 70px;
-  box-shadow: 0 5px 20px 5px rgb(241, 241, 241);
+  background-color: #ffffff;
   font-size: small;
   z-index: 100;
 }
@@ -53,13 +93,14 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  z-index: -1;
+  position: relative;
+  z-index: 10;
 }
 
 .products-section {
   flex: 70%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   margin-left: 250px;
 }
 
@@ -69,38 +110,43 @@ body {
 }
 .card-name {
 }
+.flag-left {
+  background-color: rgb(255, 166, 0);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgb(241, 241, 241);
+  position: absolute;
+  top: 1rem;
+  font-size: smaller;
+  border-end-end-radius: 10px;
+
+  border-start-end-radius: 10px;
+  left: 0rem;
+}
 .product-card {
+  border-radius: 10px;
   font-size: small;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 200px;
+  flex-wrap: wrap;
   max-height: auto;
   border-radius: 5px;
   transition: 0.3s;
   position: relative;
 }
-.flag-left {
-  background-color: whitesmoke;
-  padding: 0.2rem 0.5rem;
-  border: 1px solid rgb(241, 241, 241);
-  position: absolute;
-  top: 2rem;
-  border-end-end-radius: 10px;
 
-  border-start-end-radius: 10px;
-  left: 1rem;
-}
 .product-card:hover {
   transform: scale(1.01);
   box-shadow: 0 0 20px 5px rgb(238, 238, 238);
 }
+.product-card img {
+  border-radius: 10px;
+}
 
 .sidebar {
-
-
-  color: rgb(99, 99, 99);
-  background-color: rgb(245, 252, 255);
+  color: rgb(59, 59, 59);
+  background-color: rgb(255, 174, 0);
+  border-radius: 10px;
 
   position: fixed;
   left: 2rem;
@@ -114,31 +160,84 @@ body {
   text-decoration: line-through;
 }
 
-
 /* --------------------Cart---------------- */
 
-.cart
-{
+.cart {
 }
-.cart-card
-{
-  
+.cart-card {
+  font-size: small;
   width: 200px;
-  height:300px;
+  height: 300px;
 }
-.product-cart
-{
+.product-cart {
+  background-color: rgb(241, 254, 255);
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   flex: 75%;
 }
-.cart-total
-{
+.cart-total {
+  background-color: rgb(241, 254, 255);
   flex: 25%;
-  border: 1px solid red;
 }
-.cart-container
-{
-  
+.cart-container {
+}
+
+/* -------------wishlist------------------ */
+.wishlist-flex {
+  justify-content: center;
+}
+.wishlist-card {
+  font-size: small;
+  width: 250px;
+}
+
+/* -------------------toast-------------------- */
+
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.toast-green {
+  background-color: chartreuse;
+  color: black;
+}
+
+.hide-toast {
+  display: none;
+}
+
+.signup-container,
+.login-container {
+  border-radius: 5px;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.3rem;
+  width: 400px;
+  background-color: rgb(255, 229, 217);
+  box-shadow: 0 0 10px 1px rgb(245, 245, 245);
+}
+.block-center {
+  display: grid;
+  place-items: center;
+}
+
+.gap-01 {
+  gap: 0.2rem;
+}
+
+.home {
+  position: relative;
+}
+
+.home-3 {
+  width: 100%;
+  display: flex;
+}
+
+.home-3-item {
+  flex: 20%;
 }
