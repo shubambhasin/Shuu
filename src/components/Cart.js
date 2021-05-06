@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useProducts } from "../context/ProductContext";
 import CartCard from "./CartCard";
 import emptyCart from "../assets/images/emptyCart.svg";
@@ -8,17 +8,16 @@ import { FILL_CART } from "../reducer/actions";
 
 const Cart = () => {
   const { state, dispatch } = useProducts();
+  const [totalPrice, setTotalPrice] = useState(0)
 
   useEffect(() => {
     (async () => {
       try {
-        const {data} = await axios.get(
+        const { data } = await axios.get(
           "https://databaseforecomm-1.shubambhasin.repl.co/cart"
         );
-
         console.log(data);
         dispatch({ type: FILL_CART, payload: data });
-
         console.log(state);
       } catch (error) {
         console.error(error);
@@ -26,9 +25,11 @@ const Cart = () => {
     })();
   }, []);
 
-  const totalCartPrice = () => {
-    return state.cart.reduce((a, b) => a.price + b.price);
-  };
+  // const cartTotalPrice = state.cart.reduce((a,b) => a.price*a.quantity + b.price*b.quantity)
+
+
+  
+  
   return (
     <div className="cart container">
       <div className="cart-container">
@@ -56,15 +57,9 @@ const Cart = () => {
               })}
             </div>
             <div className="cart-total p1-rem">
-              <button
-                onClick={() =>
-                  state.cart.reduce((a, b) => a.quantity + b.quantity)
-                }
-              >
-                Total
-              </button>
-              <h1>Total items: </h1>
-              Total Amount {() => totalCartPrice()}
+            
+              {/* <h1>Total items:{ totalItems } </h1> */}
+              Total Amount: <p className="bold">TO be fixed soon</p>
             </div>
           </div>
         )}

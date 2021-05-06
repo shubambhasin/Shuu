@@ -5,12 +5,29 @@ import headerImage from "../../assets/headerImage.jpg";
 import hero from "../../assets/hero.svg";
 import "./home.css";
 import { NavLink } from "react-router-dom";
+import { useProducts } from "../../context/ProductContext";
+import { FILL_CART } from "../../reducer/actions";
+import axios from "axios";
 const Home = () => {
   const { login, setLogin } = useAuth();
+  const { state, dispatch } = useProducts()
 
   useEffect(() => {
     console.log(JSON.parse(localStorage.getItem("user")))
     JSON.parse(localStorage.getItem("user")).login ? setLogin(true) : setLogin(false);
+
+    (async () => {
+      try {
+        const { data } = await axios.get(
+          "https://databaseforecomm-1.shubambhasin.repl.co/cart"
+        );
+        console.log(data);
+        dispatch({ type: FILL_CART, payload: data });
+        console.log(state);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   });
 
   return (

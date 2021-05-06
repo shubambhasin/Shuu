@@ -23,14 +23,31 @@ const CartCard = ({ product }) => {
     }
   };
 
-  const MOVE_TO_WISHLIST = () => {
+  const MOVE_TO_WISHLIST = (product) => {
     if (!isInWishlist(product)) {
       dispatch({ type: ADD_TO_WISHLIST, payload: product });
+      (async() => {
+          try{
+            
+        const res = await axios.post("https://databaseforecomm-1.shubambhasin.repl.co/wishlist", product)
+        console.log(res)
+          }
+          catch(error)
+          {
+            console.log({error: error})
+          }
+      })()
       dispatch({ type: REMOVE_FROM_CART, payload: product });
+      removeFromCart(product)
     } else {
       dispatch({ type: REMOVE_FROM_CART, payload: product });
       // TODO: add toast here
     }
+
+
+
+
+
   };
 
   const removeFromCart = (product) => {
