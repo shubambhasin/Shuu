@@ -5,11 +5,10 @@ import { useProducts } from "../context/ProductContext";
 
 const Navbar = () => {
   const { state, dispatch } = useProducts();
-  const { login, setLogin } = useAuth();
+  const { login, setLogin, isUserLoggedIn } = useAuth();
 
   const signOut = () => {
-    setLogin(false);
-    localStorage.setItem("user", JSON.stringify({ login: false }));
+    localStorage.removeItem("user");
   };
 
   const activeStyle={
@@ -44,7 +43,7 @@ const Navbar = () => {
           Contact us
         </NavLink> */}
       </div>
-      <div className="nav-items flex gap-2">
+      <div className="nav-items jcc aic flex gap-2">
         <NavLink className="NavLinks" activeStyle={activeStyle} to="/wishlist">
           Wishlist ({state.wishlist.length})
         </NavLink>
@@ -54,12 +53,12 @@ const Navbar = () => {
         <NavLink className="NavLinks" activeStyle={activeStyle} to="/profile">
           Profile
         </NavLink>
-        {login && (
-          <button className="btn btn-red" onClick={signOut}>
+        {isUserLoggedIn && (
+          <button className="btn btn-sm btn-outline-red" onClick={signOut}>
             SignOut
           </button>
         )}
-        {!login && (
+        {!isUserLoggedIn && (
           <NavLink className="NavLinks" to="/login">
             Login
           </NavLink>

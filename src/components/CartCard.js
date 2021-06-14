@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 import {
   ADD_TO_WISHLIST,
@@ -10,8 +11,9 @@ import {
 } from "../reducer/actions";
 
 const CartCard = ({ product }) => {
-  const { name, price, quantity, image } = product;
+ 
   const { state, dispatch } = useProducts();
+  const { authToken } = useAuth()
 
   const isInWishlist = (product) => {
     if (
@@ -24,25 +26,25 @@ const CartCard = ({ product }) => {
   };
 
   const MOVE_TO_WISHLIST = (product) => {
-    if (!isInWishlist(product)) {
-      dispatch({ type: ADD_TO_WISHLIST, payload: product });
-      (async() => {
-          try{
+    // if (!isInWishlist(product)) {
+    //   dispatch({ type: ADD_TO_WISHLIST, payload: product });
+    //   (async() => {
+    //       try{
             
-        const res = await axios.post("https://databaseforecomm-1.shubambhasin.repl.co/wishlist", product)
-        console.log(res)
-          }
-          catch(error)
-          {
-            console.log({error: error})
-          }
-      })()
-      dispatch({ type: REMOVE_FROM_CART, payload: product });
-      removeFromCart(product)
-    } else {
-      dispatch({ type: REMOVE_FROM_CART, payload: product });
-      // TODO: add toast here
-    }
+    //     const res = await axios.post("https://databaseforecomm-1.shubambhasin.repl.co/wishlist", product)
+    //     console.log(res)
+    //       }
+    //       catch(error)
+    //       {
+    //         console.log({error: error})
+    //       }
+    //   })()
+    //   dispatch({ type: REMOVE_FROM_CART, payload: product });
+    //   removeFromCart(product)
+    // } else {
+    //   dispatch({ type: REMOVE_FROM_CART, payload: product });
+    //   // TODO: add toast here
+    // }
 
 
 
@@ -58,7 +60,11 @@ const CartCard = ({ product }) => {
         console.log(cartProductId);
 
        const res = await axios.delete(
-          `https://databaseforecomm-1.shubambhasin.repl.co/cart/${cartProductId}`
+          `https://databaseforecomm-1.shubambhasin.repl.co/cart/${cartProductId}`, {
+            headers: {
+              authorization: authToken
+            }
+          }
         );
 
         console.log(res)
@@ -71,9 +77,9 @@ const CartCard = ({ product }) => {
 
   return (
     <div className="cart-card pop-out">
-      <img src={image} alt="cart-card" className="responsive" />
-      <p>{name}</p>
-      <p>Price: Rs. {price * quantity}</p>
+      <img src={product.image} alt="cart-card" className="responsive" />
+      <p>{product.name}</p>
+      <p>Price: Rs. {product.price}</p>
 
       <span className="flex j-centre">
         <button
@@ -83,7 +89,7 @@ const CartCard = ({ product }) => {
           {" "}
           -{" "}
         </button>
-        <span className="b1px"> {quantity}</span>
+        <span className="b1px"> {product.availableQty}</span>
         <button
           className="btn btn-sm btn-blue"
           onClick={() => dispatch({ type: INCREASE_QTY, payload: product })}

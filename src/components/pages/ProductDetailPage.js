@@ -11,11 +11,13 @@ import {
 import "./productDetail.css";
 import finalPrice from "../ProductCard";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const ProductDetailPage = () => {
   const { state, dispatch } = useProducts();
 
   const [particularProduct, setParticularProduct] = useState([]);
+  const { authToken } = useAuth();
 
   const { id } = useParams();
 
@@ -57,41 +59,67 @@ const ProductDetailPage = () => {
       // TODO: add toast here.
     }
 
-    (async() => {
-        try{
-          
-      const res = await axios.post("https://databaseforecomm-1.shubambhasin.repl.co/wishlist", product)
-      console.log(res)
-        }
-        catch(error)
-        {
-          console.log({error: error})
-        }
-    })()
-  };
-
-  // adding product to cart
-  const addToCart = (product) => {
-    if (isProductInCart(product).length === 0) {
-      console.log("Added in cart", product);
-      dispatch({ type: ADD_TO_CART, payload: product });
-      console.log("Added to cart dispatch done ");
-      dispatch({ type: TOGGLE_TOAST, payload: "green" });
-      console.log("toggle toast", state.toast);
-      // TODO: hideToast();
-      console.log("toast hidden", state.toast);
-    } else {
-      //   dispatch({ type: INCREASE_QTY, payload: product });
-      alert("Item added in cart already");
-    }
-
     (async () => {
       try {
         const res = await axios.post(
-          "https://databaseforecomm-1.shubambhasin.repl.co/cart",
-          {...product, quantity: 1, isInCart: true}
+          "https://databaseforecomm-1.shubambhasin.repl.co/wishlist",
+          { ...product, isInWishlist: true },
+          {
+            headers: {
+              authorization: authToken,
+            },
+          }
         );
         console.log(res);
+      } catch (error) {
+        console.log({ error: error });
+      }
+    })();
+  };
+
+  const addToWishlist = async (product) => {
+    try {
+      const response = await axios.post(
+        "https://databaseforecomm-1.shubambhasin.repl.co/wishlist",
+        { ...product, isInWishlist: true },
+        {
+          headers: {
+            authorization: authToken,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const addToCart = (product) => {
+    // if (isProductInCart(product).length === 0) {
+    //   console.log("Added in cart", product);
+    //   dispatch({ type: ADD_TO_CART, payload: product });
+    //   console.log("Added to cart dispatch done ");
+    //   dispatch({ type: TOGGLE_TOAST, payload: "green" });
+    //   console.log("toggle toast", state.toast);
+    //   // TODO: hideToast();
+    //   console.log("toast hidden", state.toast);
+    // } else {
+    //   //   dispatch({ type: INCREASE_QTY, payload: product });
+    //   alert("Item added in cart already");
+    // }
+
+    (async () => {
+      try {
+        const response = await axios.post(
+          "https://databaseforecomm-1.shubambhasin.repl.co/cart",
+          { ...product, quantity: 1, inCart: true },
+          {
+            headers: {
+              authorization: authToken,
+            },
+          }
+        );
+        console.log(response);
       } catch (error) {
         console.error(error);
       }
@@ -141,7 +169,7 @@ const ProductDetailPage = () => {
                       </button>
                       <button
                         className="btn btn-red"
-                        onClick={() => moveToWishlist(product)}
+                        onClick={() => addToWishlist(product)}
                       >
                         Wishlist{" "}
                       </button>

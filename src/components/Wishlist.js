@@ -5,29 +5,48 @@ import emptyCart from "../assets/images/emptyCart.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FILL_WISHLIST } from "../reducer/actions";
+import { useAuth } from "../context/AuthContext";
 const Wishlist = () => {
   const { state, dispatch } = useProducts();
+  const { authToken } = useAuth();
 
   useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          "https://databaseforecomm-1.shubambhasin.repl.co/wishlist",
+          {
+            headers: {
+              authorization: authToken,
+            },
+          }
+        );
 
-    (async() => {
+        console.log(response.data.wishlistData[0].wishlistItems);
 
-      try{
-
-        const { data } = await axios.get("https://databaseforecomm-1.shubambhasin.repl.co/wishlist")
-
-        console.log(data)
-
-        dispatch({ type: FILL_WISHLIST, payload: data})
-
-      }catch(error)
-      {
-        console.error(error)
+        dispatch({
+          type: FILL_WISHLIST,
+          payload: response.data.wishlistData[0].wishlistItems,
+        });
+      } catch (error) {
+        console.error(error);
       }
+    })();
+  }, []);
 
-    })()
+  const clearWishlist = () => {
 
-  }, [])
+   try{
+    const response = axios.delete("https://databaseForEcomm-1.shubambhasin.repl.co/wishlist", {
+      headers: {
+        authorization: authToken
+      }
+    })
+    console.log(response)
+   } catch(error){
+     console.log("Error from clear wishlist", error)
+   }
+  }
   return (
     <div className="wishlist container">
       {/* -------------Checking if wishlist is empty or not hanece showing the banner------------- */}
@@ -50,6 +69,10 @@ const Wishlist = () => {
       ) : (
         //   ----------Wishlist display-------------
         <>
+          <span>
+            <h1 className="h3 t-center">Wishlist</h1>
+            <button onClick={() => clearWishlist()}> Clear Wishlist</button>
+          </span>
           <div className="flex f-wrap gap-2 wishlist-flex ">
             {state.wishlist.map((data) => {
               return <WishlistCard product={data} />;

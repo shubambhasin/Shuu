@@ -1,39 +1,76 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 require("dotenv").config();
 const Signup = () => {
-  const [signup, setSignup] = useState({
+  const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
-    // phoneNumber: "",
   });
-  const { setLogin, loader, setLoader } = useAuth();
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const { setLogin, loader, setLoader, isUserLoggedIn } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUserLoggedIn]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSignup({ ...signup, [name]: value });
+    setUser({ ...user, [name]: value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(signup);
+    console.log(user);
     try {
       setLoader(true);
-      const res = await axios.post(
+      const response = await axios.post(
         "https://databaseForEcomm-1.shubambhasin.repl.co/signup",
-        signup
+        user
       );
-      setLoader(false);
-      setLogin(true);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ login: true})
+      console.log(response);
+      if(response.data.error) {
+        setLoader(false)
+        if(response.data.error.email)
+        {
+          setErrors({...errors, email: response.data.error.email})
+        }
+        if(response.data.error.password)
+        {
+          setErrors({...errors, password: response.data.error.password})
+        }
+      }
+      if (response.data.token) {
+        setLoader(false);
+        setLogin(true);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            isUserLoggedIn: true,
+            username: response.data.name,
+            authToken: response.data.token,
+          })
         );
-      navigate("/success");
-      console.log(res);
+        navigate("/success");
+      }
+      // else {
+      //   localStorage.setItem(
+      //     "user",
+      //     JSON.stringify({
+      //       isUserLoggedIn: false,
+      //       username: "",
+      //       authToken: "",
+      //     })
+      //   );
+      // }
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +88,7 @@ const Signup = () => {
               name="name"
               required
               placeholder="First Name..."
-              value={signup.name}
+              value={user.name}
               onChange={handleChange}
             />
           </div>
@@ -59,35 +96,37 @@ const Signup = () => {
           <div className="flex flex-col gap-01">
             <label>Email</label>
             <input
-            className="input input-red"
+              className="input input-red"
               type="email"
               name="email"
               required
               placeholder="First Name..."
-              value={signup.email}
+              value={user.email}
               onChange={handleChange}
             />
+            <div className="email-error">
+              <small>
+                <p className="f-red"> {errors.email}</p>
+              </small>
+            </div>
           </div>
-          {/* <div className="flex flex-col gap-01">
-            <label>Phone Number</label>
-            <input
-              type="number"
-              name="phoneNumber"
-              placeholder="Phone Number"
-              required
-              onChange={handleChange}
-            />
-          </div> */}
+
           <div className="flex flex-col gap-01">
             <label>Password</label>
             <input
-            className="input input-red"
+              className="input input-red"
               type="password"
               name="password"
               placeholder="Password"
+              value={user.password}
               required
               onChange={handleChange}
             />
+            <div className="password-error">
+              <small>
+                <p className="f-red"> {errors.password}</p>
+              </small>
+            </div>
           </div>
           {/* <div className="flex flex-col gap-01">
             <label>Re-type Password</label>

@@ -6,8 +6,17 @@ import "./login.css";
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState("");
-  const { login, setLogin, loader, setLoader } = useAuth();
+  const { login, setLogin, loader, setLoader, isUserLoggedIn } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+
+    if(isUserLoggedIn)
+    {
+      navigate('/new-arrivals')
+    }
+
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;

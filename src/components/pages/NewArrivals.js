@@ -51,7 +51,7 @@ const NewArrivals = () => {
       return productList.sort(
         (a, b) =>
           a.price -
-          a.offer * a .price * 0.01 -
+          a.offer * a.price * 0.01 -
           (b.price - b.offer * b.price * 0.01)
       );
     } else {

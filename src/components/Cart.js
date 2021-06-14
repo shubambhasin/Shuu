@@ -5,22 +5,28 @@ import emptyCart from "../assets/images/emptyCart.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FILL_CART } from "../reducer/actions";
+import { useAuth } from "../context/AuthContext";
 
 const Cart = () => {
-  const { state, dispatch } = useProducts();
   const [totalPrice, setTotalPrice] = useState(0)
+  const { state, dispatch } = useProducts();
+  const { authToken } = useAuth();
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(
-          "https://databaseforecomm-1.shubambhasin.repl.co/cart"
+        const response = await axios.get(
+          "https://databaseforecomm-1.shubambhasin.repl.co/cart",{
+            headers: { 
+              authorization: authToken
+            }
+          }
         );
-        console.log(data);
-        dispatch({ type: FILL_CART, payload: data });
-        console.log(state);
+        console.log("Cart get request response: ", response)
+        dispatch({ type: FILL_CART, payload: response.data.result[0].cartItems });
+
       } catch (error) {
-        console.error(error);
+        console.error("Cart get request error:",error);
       }
     })();
   }, []);
@@ -28,7 +34,19 @@ const Cart = () => {
   // const cartTotalPrice = state.cart.reduce((a,b) => a.price*a.quantity + b.price*b.quantity)
 
 
-  
+  const clearCart = () => {
+
+    try{
+     const response = axios.delete("https://databaseForEcomm-1.shubambhasin.repl.co/cart", {
+       headers: {
+         authorization: authToken
+       }
+     })
+     console.log(response)
+    } catch(error){
+      console.log("Error from clear wishlist", error)
+    }
+   }
   
   return (
     <div className="cart container">
@@ -50,6 +68,11 @@ const Cart = () => {
             </div>
           </span>
         ) : (
+          <>
+           <span>
+            <h1 className="h3 t-center">Wishlist</h1>
+            <button onClick={() => clearCart()}> Clear Cart</button>
+          </span>
           <div className="flex gap-4 ">
             <div className="product-cart p1-rem">
               {state.cart.map((data) => {
@@ -62,6 +85,7 @@ const Cart = () => {
               Total Amount: <p className="bold">TO be fixed soon</p>
             </div>
           </div>
+          </>
         )}
       </div>
     </div>

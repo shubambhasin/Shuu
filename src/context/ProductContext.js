@@ -20,6 +20,8 @@ export const ProductProvider = ({ children }) => {
       sortBy: "",
       fastDelivery: true
   });
+
+  console.log("************************cart**************",state.cart)
   return (
     <>
       <ProductContext.Provider value={{ state, dispatch, loader, setLoader }}>

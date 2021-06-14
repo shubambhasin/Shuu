@@ -1,4 +1,6 @@
+import axios from "axios";
 import React from "react";
+import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 import {
   ADD_TO_CART,
@@ -25,6 +27,7 @@ const ProductCard = ({ product }) => {
     category,
     offer,
   } = product;
+  const { authToken } = useAuth();
 
 
   // checking i product is in car t or not
@@ -61,19 +64,31 @@ const ProductCard = ({ product }) => {
   };
 
   // adding product to cart
-  const addToCart = (product) => {
-    if (isProductInCart(product).length === 0) {
-      console.log("Added in cart", product);
-      dispatch({ type: ADD_TO_CART, payload: product });
-      console.log("Added to cart dispatch done ");
-      dispatch({ type: TOGGLE_TOAST, payload: "green" });
-      console.log("toggle toast", state.toast);
-      hideToast();
-      console.log("toast hidden", state.toast);
-    } else {
-      //   dispatch({ type: INCREASE_QTY, payload: product });
-      alert("Item added in cart already");
-    }
+  const addToCart = async (product) => {
+
+    const response = await axios.post(
+      "https://databaseforecomm-1.shubambhasin.repl.co/cart",
+        {...product, quantity: 1, inCart: true}
+      ,
+      {
+        headers: {
+          authorization: authToken,
+        },
+      }
+    )
+    console.log(response)
+    // if (isProductInCart(product).length === 0) {
+    //   console.log("Added in cart", product);
+    //   dispatch({ type: ADD_TO_CART, payload: product });
+    //   console.log("Added to cart dispatch done ");
+    //   dispatch({ type: TOGGLE_TOAST, payload: "green" });
+    //   console.log("toggle toast", state.toast);
+    //   hideToast();
+    //   console.log("toast hidden", state.toast);
+    // } else {
+    //   //   dispatch({ type: INCREASE_QTY, payload: product });
+    //   alert("Item added in cart already");
+    // }
   };
   return (
     <div className="product-card">
