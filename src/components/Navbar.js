@@ -1,14 +1,21 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 
 const Navbar = () => {
   const { state, dispatch } = useProducts();
-  const { login, setLogin, isUserLoggedIn } = useAuth();
+  const { login, setLogin, isUserLoggedIn } = useAuth(); 
+
+  const navigate = useNavigate();
+  useEffect(() => {
+
+  },[isUserLoggedIn])
 
   const signOut = () => {
     localStorage.removeItem("user");
+    setLogin(false)
+    navigate('/login')
   };
 
   const activeStyle={
@@ -27,12 +34,12 @@ const Navbar = () => {
         <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/new-arrivals">
           Moms
         </NavLink>
-        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/brands">
+        {/* <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/brands">
           Babies
         </NavLink>
         <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/men">
           Clothing
-        </NavLink>
+        </NavLink> */}
         {/* <NavLink className="NavLinks" to="/women">
           Women
         </NavLink>
@@ -53,12 +60,12 @@ const Navbar = () => {
         <NavLink className="NavLinks" activeStyle={activeStyle} to="/profile">
           Profile
         </NavLink>
-        {isUserLoggedIn && (
+        {login && (
           <button className="btn btn-sm btn-outline-red" onClick={signOut}>
             SignOut
           </button>
         )}
-        {!isUserLoggedIn && (
+        {!login && (
           <NavLink className="NavLinks" to="/login">
             Login
           </NavLink>

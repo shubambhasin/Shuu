@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { instance } from "../api/axiosapi";
 import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 import { MOVE_TO_CART, REMOVE_FROM_WISHLIST } from "../reducer/actions";
@@ -7,7 +8,7 @@ import { MOVE_TO_CART, REMOVE_FROM_WISHLIST } from "../reducer/actions";
 const WishlistCard = ({ product }) => {
   const { name, price, image } = product;
   const { state, dispatch } = useProducts();
-  const {  authToken } = useAuth();
+  const { authToken } = useAuth();
 
   // to check if product is already in cart ?
   const isInCart = (product) => {
@@ -44,16 +45,8 @@ const WishlistCard = ({ product }) => {
   const removeFromWishlist = (product) => {
     (async () => {
       const wishlistProductId = product._id;
-
       console.log(wishlistProductId);
-
-      await axios.delete(
-        `https://databaseforecomm-1.shubambhasin.repl.co/wishlist/${wishlistProductId}`, {
-          headers: {
-            authorization: authToken
-          }
-        }
-      );
+      await instance.delete(`/wishlist/${wishlistProductId}`);
     })();
     // dispatch({ type: REMOVE_FROM_WISHLIST, payload: product });
   };

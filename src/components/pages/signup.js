@@ -13,11 +13,12 @@ const Signup = () => {
     email: "",
     password: "",
   });
-  const { setLogin, loader, setLoader, isUserLoggedIn } = useAuth();
+  const {login, setLogin, loader, setLoader, isUserLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isUserLoggedIn) {
+      setLogin(true)
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

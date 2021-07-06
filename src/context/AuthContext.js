@@ -10,8 +10,7 @@ export const AuthProvider = ({ children }) => {
   };
   console.log(userinfo);
   const { isUserLoggedIn, username, authToken } = userinfo;
-
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(isUserLoggedIn);
   const [loader, setLoader] = useState(false);
 
   return (

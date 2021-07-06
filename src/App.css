@@ -12,8 +12,15 @@ body {
 }
 
 /* -----------misc-------------- */
-.p03rem
+.t-green
 {
+  color: rgb(0, 184, 0)
+}
+.t-center
+{
+  text-align: center;
+}
+.p03rem {
   padding: 0.3rem;
 }
 .NavLinks {
@@ -241,3 +248,20 @@ body {
 .home-3-item {
   flex: 20%;
 }
+
+.profile {
+  max-width: 550px;
+}
+.profile h1 {
+  text-align: center;
+}
+.profile div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.profile div input {
+  border: 1px solid rgb(212, 212, 212);
+}
+

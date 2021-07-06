@@ -10,13 +10,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    if(isUserLoggedIn)
-    {
-      navigate('/new-arrivals')
+    if (isUserLoggedIn) {
+      navigate("/new-arrivals");
     }
-
-  }, [])
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,36 +23,40 @@ const Login = () => {
     e.preventDefault();
     console.log(user);
     try {
+      setErrors({ email:"", password: ""})
       setLoader(true);
-      const res = await axios.post(
+      const response = await axios.post(
         "https://databaseForEcomm-1.shubambhasin.repl.co/signin",
         user
       );
-      if (res.status === 200) {
+      console.log(response);
+      if (response.data.error) {
+        setLoader(false);
+        if (response.data.error.email !== "") {
+          setErrors({ ...errors, email: response.data.error.email });
+        }
+        if (response.data.error.password !== "") {
+          setErrors({ ...errors, password: response.data.error.password });
+        }
+      } else {
         setLoader(false);
         setLogin(true);
-        const userId = res.data.user.userId;
-        console.log(userId);
         localStorage.setItem(
           "user",
-          JSON.stringify({ login: true, loginToken: userId })
-          );
-          navigate("/success");
-      } else if (res.status === 401) {
-        setLoader(false);
-        console.log("password incorrect")
-        setErrors("password incorrect");
-      } else if (res.status === 404) {
-        setErrors("USer is not registered");
+          JSON.stringify({
+            isUserLoggedIn: true,
+            username: response.data.name,
+            authToken: response.data.token,
+          })
+        );
+        navigate("/success");
       }
     } catch (err) {
       setLoader(false);
 
-    setErrors("Incorrect credentials/ email not registered");
+      setErrors("Incorrect credentials/ email not registered");
 
- 
-
-      console.log({"error" :err});
+      console.log({ error: err });
     }
   };
   return (
@@ -73,7 +74,7 @@ const Login = () => {
               onChange={handleChange}
               required
             />
-            <small className="f-red bold">{errors}</small>
+            <small className="f-red bold">{errors.email}</small>
           </div>
           <div className="flex flex-col gap-01">
             <label>Password</label>
@@ -84,7 +85,7 @@ const Login = () => {
               onChange={handleChange}
               required
             />
-            <small className="f-red bold">{errors}</small>
+            <small className="f-red bold">{errors.password}</small>
           </div>
           <div className="flex aic gap-2">
             <button className="btn btn-blue">
