@@ -10,14 +10,17 @@ import {
 } from "../../reducer/actions";
 import "./productDetail.css";
 import finalPrice from "../ProductCard";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { instance } from "../../api/axiosapi";
+import { notify } from "../../utils/notification";
 
 const ProductDetailPage = () => {
   const { state, dispatch } = useProducts();
 
   const [particularProduct, setParticularProduct] = useState([]);
-  const { authToken } = useAuth();
+  const { authToken, login } = useAuth();
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -78,54 +81,56 @@ const ProductDetailPage = () => {
   };
 
   const addToWishlist = async (product) => {
-    try {
-      const response = await axios.post(
-        "https://databaseforecomm-1.shubambhasin.repl.co/wishlist",
-        { ...product, isInWishlist: true },
-        {
-          headers: {
-            authorization: authToken,
-          },
+    if (login) {
+      try {
+        const response = await instance.post(`/wishlist`, {
+          ...product,
+          isInWishlist: true,
+        });
+        console.log(response);
+        if (response.data.success) {
+          notify("Added to wishlist successfully ✅");
         }
-      );
-      console.log(response);
-    } catch (error) {
-      console.error(error);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      notify("Login first 😅");
+      navigate("/login");
     }
   };
 
   const addToCart = (product) => {
-    // if (isProductInCart(product).length === 0) {
-    //   console.log("Added in cart", product);
-    //   dispatch({ type: ADD_TO_CART, payload: product });
-    //   console.log("Added to cart dispatch done ");
-    //   dispatch({ type: TOGGLE_TOAST, payload: "green" });
-    //   console.log("toggle toast", state.toast);
-    //   // TODO: hideToast();
-    //   console.log("toast hidden", state.toast);
-    // } else {
-    //   //   dispatch({ type: INCREASE_QTY, payload: product });
-    //   alert("Item added in cart already");
-    // }
-
-    (async () => {
-      try {
-        const response = await axios.post(
-          "https://databaseforecomm-1.shubambhasin.repl.co/cart",
-          { ...product, quantity: 1, inCart: true },
-          {
-            headers: {
-              authorization: authToken,
-            },
+   if(login)
+   {
+    if (isProductInCart(product)) {
+      notify("ALready in cart ❗");
+    } else {
+      (async () => {
+        try {
+          notify("Adding to cart ⏳");
+          const response = await instance.post(`/cart`, {
+            ...product,
+            quantity: 1,
+            inCart: true,
+          });
+          console.log(response);
+          if (response.data.success) {
+            notify("Added to cart successfully✅");
+          } else if (response.status === 400) {
+            notify("Item already in cart");
           }
-        );
-        console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+   }
+   else{
+     notify("Please login first 😅")
+     navigate('/login')
+   }
   };
-
   return (
     <div className="container">
       <div className="flex jcsb aic">

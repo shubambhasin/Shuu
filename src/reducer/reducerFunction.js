@@ -1,6 +1,7 @@
 import {
   ADD_TO_CART,
   ADD_TO_WISHLIST,
+  CLEAR_CART,
   DECREASE_QTY,
   FAST_DELIVERY,
   FILL_CART,
@@ -33,6 +34,11 @@ const reducerFunction = (state, { type, payload }) => {
         ...state,
         cart: state.cart.filter((data) => data._id !== payload._id),
       };
+      case CLEAR_CART:
+        return {
+          ...state,
+          cart: [],
+        };
 
     case ADD_TO_WISHLIST:
       return {

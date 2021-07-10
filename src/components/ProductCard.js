@@ -55,13 +55,6 @@ const ProductCard = ({ product }) => {
     }
   };
 
-  // hiding toast
-
-  const hideToast = (product) => {
-    setTimeout(() => {
-      dispatch({ type: TOGGLE_TOAST, payload: "green" });
-    }, 1200);
-  };
 
   // adding product to cart
   const addToCart = async (product) => {
@@ -77,31 +70,17 @@ const ProductCard = ({ product }) => {
       }
     )
     console.log(response)
-    // if (isProductInCart(product).length === 0) {
-    //   console.log("Added in cart", product);
-    //   dispatch({ type: ADD_TO_CART, payload: product });
-    //   console.log("Added to cart dispatch done ");
-    //   dispatch({ type: TOGGLE_TOAST, payload: "green" });
-    //   console.log("toggle toast", state.toast);
-    //   hideToast();
-    //   console.log("toast hidden", state.toast);
-    // } else {
-    //   //   dispatch({ type: INCREASE_QTY, payload: product });
-    //   alert("Item added in cart already");
-    // }
+
   };
   return (
     <div className="product-card">
       <img src={image} alt="product-card" className="card-img responsive" />
-     
      <div className="p03rem">
      <span className="flex flex-col">
-
      <span className="flex gap-2">
         <p className="card-brand bold">{brand}</p>
         <p className="card-name">{name}</p>
       </span>
-        
           <span>
             Rs. <span className="strike bold">{Number(`${price}`)} </span>{" "}
             {Number(finalPrice(price, offer))}{" "}

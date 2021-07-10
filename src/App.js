@@ -4,17 +4,17 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import { useAuth } from "./context/AuthContext";
 import { RoutesSwitch } from "./routes/RoutesSwitch";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-
-  const { authToken} = useAuth()
+  const { authToken } = useAuth();
   instance.defaults.headers.common["Authorization"] = authToken || "";
   return (
     <BrowserRouter>
       <div className="App">
-        
-        <Navbar/>
-        <RoutesSwitch/>
+        <Toaster />
+        <Navbar />
+        <RoutesSwitch />
       </div>
     </BrowserRouter>
   );

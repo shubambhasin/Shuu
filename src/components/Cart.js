@@ -4,7 +4,7 @@ import CartCard from "./CartCard";
 import emptyCart from "../assets/images/emptyCart.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { FILL_CART } from "../reducer/actions";
+import { CLEAR_CART, FILL_CART } from "../reducer/actions";
 import { useAuth } from "../context/AuthContext";
 import MyLoader from "./loader/MyLoader";
 
@@ -16,7 +16,7 @@ const Cart = () => {
   useEffect(() => {
     (async () => {
       try {
-        setLoader(true)
+        setLoader(true);
         const response = await axios.get(
           "https://databaseforecomm-1.shubambhasin.repl.co/cart",
           {
@@ -25,19 +25,17 @@ const Cart = () => {
             },
           }
         );
-        setLoader(false)
+        setLoader(false);
         console.log("Cart get request response: ", response);
-        if(response.data.success) {
-          if(response.data.result.length !== 0){
+        if (response.data.success) {
+          if (response.data.result.length !== 0) {
             dispatch({
               type: FILL_CART,
               payload: response.data.result[0].cartItems,
             });
           }
+        } else {
         }
-          else{
-
-          }
       } catch (error) {
         console.error("Cart get request error:", error);
       }
@@ -46,9 +44,9 @@ const Cart = () => {
 
   // const cartTotalPrice = state.cart.reduce((a,b) => a.price*a.quantity + b.price*b.quantity)
 
-  const clearCart = () => {
+ const clearCart = async () => {
     try {
-      const response = axios.delete(
+      const response = await axios.delete(
         "https://databaseForEcomm-1.shubambhasin.repl.co/cart",
         {
           headers: {
@@ -57,6 +55,11 @@ const Cart = () => {
         }
       );
       console.log(response);
+      if (response.data.success) {
+        dispatch({
+          type: CLEAR_CART,
+        });
+      }
     } catch (error) {
       console.log("Error from clear wishlist", error);
     }
@@ -89,7 +92,7 @@ const Cart = () => {
             ) : (
               <>
                 <span>
-                  <h1 className="h3 t-center">Wishlist</h1>
+                  <h1 className="h3 t-center">Cart</h1>
                   <button onClick={() => clearCart()}> Clear Cart</button>
                 </span>
                 <div className="flex gap-4 ">
