@@ -7,47 +7,46 @@ import { MOVE_TO_CART, REMOVE_FROM_WISHLIST } from "../reducer/actions";
 import { notify } from "../utils/notification";
 
 const WishlistCard = ({ product }) => {
+  console.log(product)
   const { state, dispatch } = useProducts();
-  const { authToken } = useAuth();
 
-  // to check if product is already in cart ?
   const isInCart = (product) => {
     if (state.cart.filter((data) => data._id === product._id).length !== 0)
       return true;
+    else return false;
   };
-
   const moveToCart = (product) => {
     if (!isInCart(product)) {
-      dispatch({ type: MOVE_TO_CART, payload: product });
-
       (async () => {
         try {
-          const res = await axios.post(
+          notify("Moving to cart");
+          const response = await axios.post(
             "https://databaseforecomm-1.shubambhasin.repl.co/cart",
             { ...product, quantity: 1, isInCart: true }
           );
-          console.log(res);
+          console.log(response);
+          if (response.data.success) {
+            notify("Added to cart ✅");
+            dispatch({ type: MOVE_TO_CART, payload: product });
+            dispatch({ type: REMOVE_FROM_WISHLIST, payload: product });
+          }
         } catch (error) {
           console.error(error);
         }
       })();
-      dispatch({ type: REMOVE_FROM_WISHLIST, payload: product });
     } else {
-      dispatch({ type: REMOVE_FROM_WISHLIST, payload: product });
+      notify("already in cart ❌");
+      // dispatch({ type: REMOVE_FROM_WISHLIST, payload: product })
       // TODO: alert("already in cart");
     }
-
     removeFromWishlist(product);
   };
-
   const removeFromWishlist = (product) => {
     const wishlistProductId = product._id;
     console.log(wishlistProductId);
-    if(state.wishlist.length ===1 )
-    {
-      clearWishlist()  
-    }
-    else{
+    if (state.wishlist.length === 1) {
+      clearWishlist();
+    } else {
       (async () => {
         try {
           const response = await instance.delete(
@@ -63,17 +62,20 @@ const WishlistCard = ({ product }) => {
       })();
     }
   };
-  
-  const clearWishlist = () => {
+  const clearWishlist = async () => {
     try {
-      const response = instance.delete("/wishlist")
+      notify("Clearning wishlist ⏳");
+      const response = await instance.delete("/wishlist");
       console.log(response);
-      notify("Removed from wishlist successfully ✅");
+      if (response.data.success) {
+        dispatch({ type: REMOVE_FROM_WISHLIST, payload: product });
+        notify("Removed from wishlist successfully ✅");
+      }
     } catch (error) {
+      notify("Error occured while clearing wishlist ❌");
       console.log("Error from clear wishlist", error);
     }
   };
-
   return (
     <div className="wishlist-card pop-out p1-rem">
       <img
@@ -85,9 +87,16 @@ const WishlistCard = ({ product }) => {
       <p>Price: Rs.{product.product.price}</p>
       <div className="flex j-space-between">
         <span>
-          <button className="btn btn-red" onClick={() => moveToCart(product)}>
-            Move to cart
-          </button>
+          {product.product.inStock === false && (
+            <button className="btn btn-outline" disabled={true}>
+              Out of stock
+            </button>
+          )}
+          {product.product.inStock === true && (
+            <button className="btn btn-red" onClick={() => moveToCart(product)}>
+              Move to cart
+            </button>
+          )}
           <button
             className="btn btn-blue"
             onClick={() => removeFromWishlist(product)}

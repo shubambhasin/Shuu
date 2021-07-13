@@ -3,7 +3,7 @@ import Cart from "../components/Cart";
 import Blog from "../components/pages/Blog";
 import Brands from "../components/pages/Brands";
 import Contact from "../components/pages/contact";
-import Home from "../components/pages/Home";
+import Home from "../components/pages/Home/Home";
 import Login from "../components/pages/login";
 import Men from "../components/pages/Men";
 import NewArrivals from "../components/pages/NewArrivals";

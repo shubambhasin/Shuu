@@ -7,6 +7,7 @@ import axios from "axios";
 import { CLEAR_CART, FILL_CART } from "../reducer/actions";
 import { useAuth } from "../context/AuthContext";
 import MyLoader from "./loader/MyLoader";
+import BottomNavbar from "./bottomNavbar/BottomNavbar";
 
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
@@ -33,8 +34,13 @@ const Cart = () => {
               type: FILL_CART,
               payload: response.data.result[0].cartItems,
             });
+            // const cartTotalPrice = state.cart.reduce((a,b) => a.price*a.quantity + b.price*b.quantity)
+            // setTotalPrice(cartTotalPrice)
           }
-        } else {
+        } 
+        else 
+        {
+
         }
       } catch (error) {
         console.error("Cart get request error:", error);
@@ -42,7 +48,15 @@ const Cart = () => {
     })();
   }, []);
 
-  // const cartTotalPrice = state.cart.reduce((a,b) => a.price*a.quantity + b.price*b.quantity)
+  useEffect(() => {
+
+    console.log(state.cart)
+
+  }, [state.cart])
+
+
+  console.log(totalPrice)
+
 
  const clearCart = async () => {
     try {
@@ -67,9 +81,11 @@ const Cart = () => {
 
   return (
     <div>
+      <BottomNavbar/>
       {loader && <MyLoader text="Loading please wait" />}
       {!loader && (
         <div className="cart container">
+          {/* <h1 className="h1 t-center">Cart</h1> */}
           <div className="cart-container">
             {state.cart.length === 0 ? (
               <span className="center-banners flex-col f-grey">

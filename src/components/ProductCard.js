@@ -9,10 +9,10 @@ import {
   REMOVE_FROM_CART,
 } from "../reducer/actions";
 
-  // calculate card final price
-  export const finalPrice = (price, offer) => {
-    return price - offer * price * 0.01;
-  };
+// calculate card final price
+export const finalPrice = (price, offer) => {
+  return price - offer * price * 0.01;
+};
 
 const ProductCard = ({ product }) => {
   const { state, dispatch } = useProducts();
@@ -29,7 +29,6 @@ const ProductCard = ({ product }) => {
   } = product;
   const { authToken } = useAuth();
 
-
   // checking i product is in car t or not
 
   const isProductInCart = (product) => {
@@ -37,7 +36,9 @@ const ProductCard = ({ product }) => {
   };
 
   const isInWishlist = (product) => {
-    if (state.wishlist.filter((data) => data._id === product._id).length === 0) {
+    if (
+      state.wishlist.filter((data) => data._id === product._id).length === 0
+    ) {
       return false;
     } else {
       return true;
@@ -55,46 +56,42 @@ const ProductCard = ({ product }) => {
     }
   };
 
-
   // adding product to cart
   const addToCart = async (product) => {
-
     const response = await axios.post(
       "https://databaseforecomm-1.shubambhasin.repl.co/cart",
-        {...product, quantity: 1, inCart: true}
-      ,
+      { ...product, quantity: 1, inCart: true },
       {
         headers: {
           authorization: authToken,
         },
       }
-    )
-    console.log(response)
-
+    );
+    console.log(response);
   };
   return (
     <div className="product-card">
       <img src={image} alt="product-card" className="card-img responsive" />
-     <div className="p03rem">
-     <span className="flex flex-col">
-     <span className="flex gap-2">
-        <p className="card-brand bold">{brand}</p>
-        <p className="card-name">{name}</p>
-      </span>
+      <div className="p03rem">
+        <span className="flex flex-col">
+          <span className="flex gap-2">
+            <p className="card-brand bold">{brand}</p>
+            <p className="card-name">{name}</p>
+          </span>
           <span>
             Rs. <span className="strike bold">{Number(`${price}`)} </span>{" "}
             {Number(finalPrice(price, offer))}{" "}
             <span className="f-red"> ({offer}% off)</span>
           </span>
-        
-        <p className={`star-${Math.floor(`${ratings}`)}`}></p>
-      </span>
-      <p className="card-category flag-left">{category} </p>
-      <small className="flex gap-2 smaller">
-        {inStock ? <p> InStock</p> : <p>OUT OF STOCK</p>}{" "}
-        {fastDelivery && <p>ExpressDelivery</p>}
-      </small>
-     </div>
+
+          <p className={`star-${Math.floor(`${ratings}`)}`}></p>
+        </span>
+        <p className="card-category flag-left">{category} </p>
+        <small className="flex gap-2 smaller">
+          {inStock ? <p> InStock</p> : <p>OUT OF STOCK</p>}{" "}
+          {fastDelivery && <p>ExpressDelivery</p>}
+        </small>
+      </div>
 
       {/* <span className="equal flex gap-2">
         <button

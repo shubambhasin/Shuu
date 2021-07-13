@@ -4,27 +4,33 @@ import reducerFunction from "../reducer/reducerFunction";
 
 export const ProductContext = createContext();
 
-
-
 export const ProductProvider = ({ children }) => {
-    const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(true);
   const [state, dispatch] = useReducer(reducerFunction, {
     products: [],
     cart: [],
     wishlist: [],
-    toast : {
-        tState:false,
-        bg: ""
-      },
-      inStock: true,
-      sortBy: "",
-      fastDelivery: true
+    toast: {
+      tState: false,
+      bg: "",
+    },
+    inStock: true,
+    sortBy: "",
+    fastDelivery: true,
   });
-
-  console.log("************************cart**************",state.cart)
+  const [showSidebar, setShowSidebar] = useState(true);
   return (
     <>
-      <ProductContext.Provider value={{ state, dispatch, loader, setLoader }}>
+      <ProductContext.Provider
+        value={{
+          state,
+          dispatch,
+          loader,
+          setLoader,
+          showSidebar,
+          setShowSidebar,
+        }}
+      >
         {children}
       </ProductContext.Provider>
     </>

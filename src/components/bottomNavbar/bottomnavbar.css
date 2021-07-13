@@ -1,0 +1,29 @@
+.bottom-navbar {
+  display: none;
+  gap: 3rem;
+  margin-top: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+  left: 0;
+  height: 50px;
+  background-color: white;
+  color: black;
+  border-top: 1px solid rgb(221, 221, 221);
+}
+.light-small{
+    font-size: x-small;
+}
+
+@media screen and (max-width: 768px) {
+  .bottom-navbar {
+    display: flex;
+  }
+
+}
+@media  (max-width: 425px) {
+    .bottom-navbar {
+      gap: 1.5rem;
+    }
+  }

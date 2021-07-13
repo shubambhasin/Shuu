@@ -1,6 +1,5 @@
-.w-50
-{
-    width: 50%;
+.w-50 {
+  width: 50%;
 }
 .hero {
   background-color: rgb(255, 182, 47);
@@ -10,17 +9,15 @@
   width: 100%;
   display: flex;
   justify-content: center;
-
 }
 .hero header {
-    width: 50%;
-
+  width: 50%;
 }
-.hero img{
-    width:50%;
+.hero img {
+  width: 50%;
 }
 .tiles-3 {
-    display: flex;
+  display: flex;
   width: 80%;
   flex-direction: column;
   justify-content: center;
@@ -32,21 +29,16 @@
 
 .tile {
   width: 70%;
-
 }
-.pop{
-
+.pop {
 }
-.pop:hover{
-    scale: 1.1;
+.pop:hover {
+  scale: 1.1;
 }
-.f-xx-lg
-{
-    font-size: 1.5rem;
+.f-xx-lg {
+  font-size: 1.5rem;
 }
 .hero .flex {
-   
 }
-.hero .flex .btn-green
-{
+.hero .flex .btn-green {
 }

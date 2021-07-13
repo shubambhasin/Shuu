@@ -8,6 +8,7 @@ import { FILL_WISHLIST } from "../reducer/actions";
 import { useAuth } from "../context/AuthContext";
 import MyLoader from "./loader/MyLoader";
 import {instance} from '../api/axiosapi'
+import BottomNavbar from "./bottomNavbar/BottomNavbar";
 
 const Wishlist = () => {
   const { state, dispatch } = useProducts();
@@ -37,9 +38,9 @@ const Wishlist = () => {
     })();
   }, []);
 
-  const clearWishlist = () => {
+  const clearWishlist = async () => {
     try {
-      const response = instance.delete("/wishlist")
+      const response = await instance.delete("/wishlist")
 
       console.log(response);
     } catch (error) {
@@ -48,11 +49,11 @@ const Wishlist = () => {
   };
   return (
     <div>
+      <BottomNavbar/>
       {loader && <MyLoader text="Loading please wait..." />}
 
       {!loader && (
         <div className="wishlist container">
-          {/* -------------Checking if wishlist is empty or not hanece showing the banner------------- */}
           {state.wishlist.length === 0 ? (
             <span className="center-banners flex-col">
               <img src={emptyCart} alt="empty-card" className="banners" />

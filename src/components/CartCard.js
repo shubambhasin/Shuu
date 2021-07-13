@@ -8,15 +8,14 @@ import {
   CLEAR_CART,
   DECREASE_QTY,
   INCREASE_QTY,
-  MOVE_TO_WISHLIST,
   REMOVE_FROM_CART,
 } from "../reducer/actions";
 import { notify } from "../utils/notification";
 
 const CartCard = ({ product }) => {
+  console.log(product);
   const { state, dispatch } = useProducts();
-  const { authToken } = useAuth();
-
+  console.log("heyyyyyyyyyyyyyyyyyyyyy",state.cart)
   const isInWishlist = (product) => {
     if (
       state.wishlist.filter((data) => data._id === product._id).length === 0
@@ -27,21 +26,25 @@ const CartCard = ({ product }) => {
     }
   };
 
-  const MOVE_TO_WISHLIST = (product) => {
+  const moveToWishlist = (product) => {
     if (!isInWishlist(product)) {
       (async (req, res) => {
         try {
           notify("Adding to wishlist ⏳ ");
-          const response = await instance.post("/wishlist", {
-            ...product,
+          const response = await instance.post(`/wishlist`, {
+            ...product.product,
+            isInWishlist: true,
           });
-          if (response.status.success) {
-            removeFromCart(product);
-            dispatch({ type: ADD_TO_WISHLIST, payload: product });
-            notify("Added to wishlist ✅ ");
-          }
-          if (response.status.error) {
-            notify("Unknown error occurred");
+          console.log("line 36", response);
+          if (response) {
+            if (response.status.success) {
+              removeFromCart(product);
+              dispatch({ type: ADD_TO_WISHLIST, payload: product });
+              notify("Added to wishlist ✅ ");
+            }
+            if (response.status.error) {
+              notify("Unknown error occurred");
+            }
           }
         } catch (error) {
           console.log("Error from cart card, add to wishlist ", error);
@@ -68,16 +71,16 @@ const CartCard = ({ product }) => {
       (async () => {
         try {
           const cartProductId = product._id;
-
           console.log(cartProductId);
-
+          notify("Removing from cart ⏳");
           const response = await instance.delete(`/cart/${cartProductId}`);
-
           console.log(response);
           if (response.data.success) {
+            notify("Removed successful ✅");
             dispatch({ type: REMOVE_FROM_CART, payload: product });
           }
         } catch (error) {
+          notify("Error occured while removing from cart ❌");
           console.error(error);
         }
       })();
@@ -99,18 +102,23 @@ const CartCard = ({ product }) => {
   };
 
   const increaseQuantity = async (product) => {
+
+    console.log(product)
     try {
-      const response = await instance.post(`/cart/${product.product._id}`);
+      const response = await instance.post(`/cart/${product.product._id}`, product);
+      console.log(response);
+      
     } catch (error) {
       console.log(error);
     }
-    // dispatch({ type: INCREASE_QTY, payload: product })
+    dispatch({ type: INCREASE_QTY, payload: product })
   };
   return (
     <div className="cart-card pop-out">
       <img src={product.product.image} alt="cart-card" className="responsive" />
       <p>{product.product.name}</p>
-      <p>Price: Rs. {product.product.price}</p>
+      <p>Price: {product.product.price}</p>
+      <p>Total Price: Rs. {product.product.price*product.quantity}</p>
 
       <span className="flex j-centre">
         <button
@@ -120,12 +128,15 @@ const CartCard = ({ product }) => {
           {" "}
           -{" "}
         </button>
-        <span className="b1px"> {product.quantity}</span>
-        <button className="btn btn-sm btn-blue" onClick={increaseQuantity}>
+        <span className="b1px h4 m05-rem"> {product.quantity}</span>
+        <button
+          className="btn btn-sm btn-blue"
+          onClick={() => increaseQuantity(product)}
+        >
           {" "}
           +{" "}
         </button>
-      </span>
+      </span> 
       <span className="flex j-centre gap-2 mtb1-rem">
         {" "}
         <button
@@ -134,12 +145,12 @@ const CartCard = ({ product }) => {
         >
           Remove
         </button>
-        <button
-          onClick={() => MOVE_TO_WISHLIST(product)}
+        {/* <button
+          onClick={() => moveToWishlist(product)}
           className="btn btn-sm btn-red"
         >
           Move to Wishlist
-        </button>
+        </button> */}
       </span>
     </div>
   );

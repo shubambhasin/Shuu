@@ -2,14 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useProducts } from "../../context/ProductContext";
-import {
-  ADD_TO_CART,
-  ADD_TO_WISHLIST,
-  REMOVE_FROM_CART,
-  TOGGLE_TOAST,
-} from "../../reducer/actions";
+import { ADD_TO_WISHLIST, REMOVE_FROM_CART } from "../../reducer/actions";
 import "./productDetail.css";
-import finalPrice from "../ProductCard";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { instance } from "../../api/axiosapi";
@@ -17,6 +11,7 @@ import { notify } from "../../utils/notification";
 
 const ProductDetailPage = () => {
   const { state, dispatch } = useProducts();
+  const [loading, setLoading] = useState("false");
 
   const [particularProduct, setParticularProduct] = useState([]);
   const { authToken, login } = useAuth();
@@ -27,11 +22,14 @@ const ProductDetailPage = () => {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const res = await axios.get(
           `https://databaseforecomm-1.shubambhasin.repl.co/products/${id}`
         );
+        setLoading(false);
+        console.log(res);
+
         setParticularProduct([...res.data]);
-        console.log(res.data);
       } catch (error) {
         console.error(error);
       }
@@ -39,7 +37,12 @@ const ProductDetailPage = () => {
   }, []);
 
   const isProductInCart = (product) => {
-    return state.cart.filter((data) => data._id === product._id);
+    const isInCart = state.cart.filter((data) => data._id === product._id);
+    if (isInCart.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   const isInWishlist = (product) => {
@@ -83,15 +86,20 @@ const ProductDetailPage = () => {
   const addToWishlist = async (product) => {
     if (login) {
       try {
+        notify("Adding to wishlist ⏳");
         const response = await instance.post(`/wishlist`, {
           ...product,
-          isInWishlist: true,
         });
         console.log(response);
-        if (response.data.success) {
-          notify("Added to wishlist successfully ✅");
+        if (response) {
+          if (response.data.success) {
+            notify("Added to wishlist successfully ✅");
+          }
+        } else {
+          notify("Already in wishlist 😅");
         }
       } catch (error) {
+        notify("Error ❌");
         console.error(error);
       }
     } else {
@@ -101,92 +109,99 @@ const ProductDetailPage = () => {
   };
 
   const addToCart = (product) => {
-   if(login)
-   {
-    if (isProductInCart(product)) {
-      notify("ALready in cart ❗");
-    } else {
-      (async () => {
-        try {
-          notify("Adding to cart ⏳");
-          const response = await instance.post(`/cart`, {
-            ...product,
-            quantity: 1,
-            inCart: true,
-          });
-          console.log(response);
-          if (response.data.success) {
-            notify("Added to cart successfully✅");
-          } else if (response.status === 400) {
-            notify("Item already in cart");
+    if (login) {
+      if (isProductInCart(product)) {
+        notify("ALready in cart ❗");
+      } else {
+        (async () => {
+          try {
+            notify("Adding to cart ⏳");
+            const response = await instance.post(`/cart`, {
+              ...product,
+              quantity: 1,
+              inCart: true,
+            });
+            if (response) {
+              console.log(response);
+              if (response.data.success) {
+                notify("Added to cart successfully✅");
+              } else if (response.status === 400) {
+                notify("Item already in cart");
+              }
+            }
+          } catch (error) {
+            console.error(error);
           }
-        } catch (error) {
-          console.error(error);
-        }
-      })();
+        })();
+      }
+    } else {
+      notify("Please login first 😅");
+      navigate("/login");
     }
-   }
-   else{
-     notify("Please login first 😅")
-     navigate('/login')
-   }
   };
   return (
     <div className="container">
-      <div className="flex jcsb aic">
-        {" "}
-        <h1 className="h1 mtb1-rem">Details</h1>
-        <NavLink to="/new-arrivals" className="btn btn-green">
-          Go back{" "}
-        </NavLink>
-      </div>
-      {particularProduct.length !== 0 && (
+      {loading && <h1 className="h2 t-center">Loading product details...</h1>}
+      {!loading && (
         <>
-          {particularProduct.map((product) => {
-            return (
-              <div>
-                <div className="product-detail flex jcc gap-2">
-                  <img
-                    src={product.image}
-                    alt="product-img"
-                    className="responsive br10px"
-                  />
-                  <div className="product-detail-info">
-                    <h1 className="bold h2 larger">{product.name}</h1>
+          <div className="flex jcsb aic">
+            {" "}
+            <h1 className="h1 mtb1-rem">Details</h1>
+            <NavLink to="/new-arrivals" className="btn btn-green">
+              Go back{" "}
+            </NavLink>
+          </div>
+          {particularProduct.length !== 0 && (
+            <>
+              {particularProduct.map((product) => {
+                return (
+                  <div>
+                    <div className="product-detail flex jcc gap-2">
+                      <img
+                        src={product.image}
+                        alt="product-img"
+                        className="responsive br10px"
+                      />
+                      <div className="product-detail-info">
+                        <h1 className="bold h2 larger">{product.name}</h1>
 
-                    <p className="h3">Rs {product.price}</p>
-                    {/* <p>{finalPrice(`${product.price}`, `${product.offer}`)}</p> */}
+                        <p className="h3">Rs {product.price}</p>
+                        {/* <p>{finalPrice(`${product.price}`, `${product.offer}`)}</p> */}
 
-                    <span className="equal flex gap-2">
-                      <button
-                        className="btn btn-blue"
-                        onClick={() => addToCart(product)}
-                        disabled={!product.inStock}
-                      >
-                        {product.inStock ? (
-                          <>
-                            {" "}
-                            {product.inCart ? "Already in Cart" : "Add to cart"}
-                          </>
-                        ) : (
-                          <>OUT OF STOCK</>
-                        )}
-                      </button>
-                      <button
-                        className="btn btn-red"
-                        onClick={() => addToWishlist(product)}
-                      >
-                        Wishlist{" "}
-                      </button>
-                    </span>
+                        <span className="equal flex gap-2">
+                          <button
+                            className="btn btn-blue"
+                            onClick={() => addToCart(product)}
+                            disabled={!product.inStock}
+                          >
+                            {product.inStock ? (
+                              <>
+                                {" "}
+                                {product.inCart
+                                  ? "Already in Cart"
+                                  : "Add to cart"}
+                              </>
+                            ) : (
+                              <>OUT OF STOCK</>
+                            )}
+                          </button>
+                          <button
+                            className="btn btn-red"
+                            onClick={() => addToWishlist(product)}
+                          >
+                            Wishlist{" "}
+                          </button>
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </>
+          )}
+          {particularProduct.length === 0 && <h1>NO product found</h1>}
         </>
       )}
-      {particularProduct.length === 0 && <h1>NO product found</h1>}
     </div>
   );
 };

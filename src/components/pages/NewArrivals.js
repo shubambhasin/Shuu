@@ -7,9 +7,10 @@ import Sidebar from "../Sidebar";
 import ProductCard from "../ProductCard";
 import Toast from "../Toast";
 import { NavLink } from "react-router-dom";
+import BottomNavbar from "../bottomNavbar/BottomNavbar";
 
 const NewArrivals = () => {
-  const { state, dispatch, loader, setLoader } = useProducts();
+  const { state, dispatch, loader, setLoader, showSidebar, setShowSidebar } = useProducts();
 
   const { inStock, fastDelivery } = state
 
@@ -29,6 +30,24 @@ const NewArrivals = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 768) {
+        setShowSidebar(false);
+      } else {
+        setShowSidebar(true);
+      }
+    }
+    handleResize()
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      handleResize();
+    };
+  }, [window.innerWidth]);
+  
 
   function getFilteredData(productList, filterType) {
     return productList.filter(({ inStock, fastDelivery }) =>
@@ -61,28 +80,31 @@ const NewArrivals = () => {
   };
 
   const sortedData = getSortedData(state.products, state.sortBy);
-  // const filteredData = getFilteredData(sortedData, state.sortBy)
   const filteredData = getFilteredData(sortedData, {
     inStock, fastDelivery
   });
-
+  
   return (
     <div className="new-arrivals container">
+      <BottomNavbar/>
       {loader ? (
         <p className="loader">Loading...</p>
       ) : (
-        <div className="flex gap-4">
-          <Sidebar />
-          <div className="products-section flex gap-2 f-wrap">
+        <div className="product-container">
+          <Sidebar  />
+          <div>
+            {/* <h1 className="h3 ml1-rem mb1-rem">New Arrivals</h1> */}
+          <div className="products-section">
+            
             {filteredData.map((data) => {
               return (
-                <NavLink className="links" to={`/products/${data._id}`}>
-                  <ProductCard key={data._id} product={data} />
+                <NavLink key={data._id} className="links" to={`/products/${data._id}`}>
+                  <ProductCard product={data} />
                 </NavLink>
               );
             })}
-
-            <Toast message="Item added to cart" />
+            {/* <Toast message="Item added to cart" /> */}
+          </div>
           </div>
         </div>
       )}

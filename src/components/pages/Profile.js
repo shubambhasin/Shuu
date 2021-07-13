@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import BottomNavbar from "../bottomNavbar/BottomNavbar";
 import ButtonLoader from "../buttonLoader/ButtonLoader";
 import MyLoader from "../loader/MyLoader";
 
@@ -48,18 +49,6 @@ const Profile = () => {
               state: response.data.userAddress[0].addresses[0].state,
               address: response.data.userAddress[0].addresses[0].address,
             });
-            // localStorage.setItem(
-            //   "userProfile",
-            //   JSON.stringify({
-            //     username: response.data.userInfo.name,
-            //     email: response.data.userInfo.email,
-            //     pincode: response.data.userAddress[0].addresses[0].pincode,
-            //     district: response.data.userAddress[0].addresses[0].disrict,
-            //     state: response.data.userAddress[0].addresses[0].state,
-            //     address: response.data.userAddress[0].addresses[0].address,
-            //   })
-
-            // );
             console.log(profile);
           } else {
             // alert("something went wrong");
@@ -83,12 +72,7 @@ const Profile = () => {
   };
 
   const saveChanges = async () => {
-
-    
-    
-    try {
-      console.log("from line 86, authorkne ", authToken);
-      // token is getting recieved
+  try {
       setLoader(true)
       const response = await axios.post(
         "https://databaseForEcomm-1.shubambhasin.repl.co/address",
@@ -112,6 +96,7 @@ const Profile = () => {
   };
   return (
     <div>
+      <BottomNavbar/>
       {loader && (
         <div className="t-center">
           <MyLoader text="Loading..." />
@@ -205,6 +190,7 @@ const Profile = () => {
           </div>
         </div>
       )}
+      
     </div>
   );
 };

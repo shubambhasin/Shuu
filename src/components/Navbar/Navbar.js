@@ -1,56 +1,39 @@
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useProducts } from "../context/ProductContext";
-
+import { useAuth } from "../../context/AuthContext";
+import { useProducts } from "../../context/ProductContext";
+import { IoFilter } from "react-icons/io5";
+import "./navbar.css";
+import { activeStyle } from "../../utils/styles";
 const Navbar = () => {
-  const { state, dispatch } = useProducts();
-  const { login, setLogin, isUserLoggedIn } = useAuth(); 
+  const { state, showSidebar, setShowSidebar } = useProducts();
+  const { login, setLogin } = useAuth();
 
   const navigate = useNavigate();
-  useEffect(() => {
-
-  },[isUserLoggedIn])
 
   const signOut = () => {
     localStorage.removeItem("user");
-    setLogin(false)
-    navigate('/login')
+    setLogin(false);
+    navigate("/login");
   };
 
-  const activeStyle={
-    color: "#ff7100"
-  }
   return (
     <div className="navbar">
       <NavLink className="NavLinks brand-logo" to="/">
-        <h1 className="h4 bold">Cart4Mothers</h1>
-
+        <h1 className="h3 bold f-orange">Cart4Mothers</h1>
       </NavLink>
-      <div className="nav-items flex gap-2">
+      <div className="nav-items flex gap-2"></div>
+      <div className="nav-items  aic flex gap-2 wide-navbar">
         <NavLink className="NavLinks bold" end activeStyle={activeStyle} to="/">
           Home
         </NavLink>
-        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/new-arrivals">
-          Moms
+        <NavLink
+          className="NavLinks bold"
+          activeStyle={activeStyle}
+          to="/new-arrivals"
+        >
+          Shop
         </NavLink>
-        {/* <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/brands">
-          Babies
-        </NavLink>
-        <NavLink className="NavLinks bold" activeStyle={activeStyle} to="/men">
-          Clothing
-        </NavLink> */}
-        {/* <NavLink className="NavLinks" to="/women">
-          Women
-        </NavLink>
-        <NavLink className="NavLinks" to="/blog">
-          Blog
-        </NavLink>
-        <NavLink className="NavLinks" to="/contact-us">
-          Contact us
-        </NavLink> */}
-      </div>
-      <div className="nav-items jcc aic flex gap-2">
         <NavLink className="NavLinks" activeStyle={activeStyle} to="/wishlist">
           Wishlist ({state.wishlist.length})
         </NavLink>
@@ -70,6 +53,13 @@ const Navbar = () => {
             Login
           </NavLink>
         )}
+      </div>
+      <div className="hamburger-navbar flex aic jcc gap-1">
+        <span className="h5">Filters </span>
+        <IoFilter
+          size={28}
+          onClick={() => setShowSidebar(!showSidebar)}
+        />
       </div>
     </div>
   );
