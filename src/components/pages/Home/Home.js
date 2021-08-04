@@ -4,26 +4,25 @@ import hero from "../../../assets/hero.svg";
 import "./home.css";
 import { NavLink } from "react-router-dom";
 import { useProducts } from "../../../context/ProductContext";
-import { FILL_CART } from "../../../reducer/actions";
+import { FILL_CART, FILL_WISHLIST } from "../../../reducer/actions";
 import axios from "axios";
+import { instance } from "../../../api/axiosapi";
+import BottomNavbar from "../../bottomNavbar/BottomNavbar";
 const Home = () => {
   const { dispatch } = useProducts();
-  const { authToken } = useAuth();
+
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(
-          "https://databaseforecomm-1.shubambhasin.repl.co/cart",
-          {
-            headers: {
-              authorization: authToken,
-            },
-          }
-        );
+        const response = await instance.get(
+          "/cart");
         console.log(response);
         if (response.data.success) {
           if (response.data.result.length !== 0) {
-            dispatch({ type: FILL_CART, payload: response.data.result });
+            dispatch({
+              type: FILL_CART,
+              payload: response.data.result[0].cartItems,
+            });
           }
         }
       } catch (error) {
@@ -31,9 +30,33 @@ const Home = () => {
       }
     })();
   }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        // setLoader(true);
+        const response = await instance.get('/wishlist')
+        
+        // setLoader(false);
+        console.log(response)
+        if (response.data.success) {
+          if (response.data.wishlistData.length !== 0) {
+            console.log(response.data.wishlistData);
+            dispatch({
+              type: FILL_WISHLIST,
+              payload: response.data.wishlistData[0].wishlistItems,
+            });
+          } else {
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   return (
     <div className="home home-container">
+      <BottomNavbar/>
       <div className="hero">
         <div className="flex flex-col jcc aic w-50">
           <div className="">

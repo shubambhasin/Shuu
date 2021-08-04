@@ -4,13 +4,20 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./login.css";
 const Login = () => {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const GUEST_EMAIL = process.env.REACT_APP_GUEST_EMAIL;
+  const GUEST_PASSWORD = process.env.REACT_APP_GUEST_PASSWORD;
+  console.log(process.env)
+
+  const [user, setUser] = useState({
+    email: "testuser@gmail.com",
+    password: "shubam",
+  });
   const [errors, setErrors] = useState("");
-  const { login, setLogin, loader, setLoader, isUserLoggedIn } = useAuth();
+  const { login, setLogin, loader, setLoader } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isUserLoggedIn) {
+    if (login) {
       navigate("/new-arrivals");
     }
   }, []);
@@ -23,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     console.log(user);
     try {
-      setErrors({ email:"", password: ""})
+      setErrors({ email: "", password: "" });
       setLoader(true);
       const response = await axios.post(
         "https://databaseForEcomm-1.shubambhasin.repl.co/signin",
@@ -59,6 +66,12 @@ const Login = () => {
       console.log({ error: err });
     }
   };
+  const loginWithGuestCredentials = (e) => {
+    e.preventDefault();
+    // setUser({ email: "test@gmail.com", password: "shubam" });
+    handleLogin(e, user);
+  };
+
   return (
     <div className="login container block-center">
       <h1 className="h2 mb1-rem">Login</h1>
@@ -87,8 +100,8 @@ const Login = () => {
             />
             <small className="f-red bold">{errors.password}</small>
           </div>
-          <div className="flex aic gap-2">
-            <button className="btn btn-blue">
+          <div className="flex flex-col aic gap-2">
+            <button className="btn w-100 btn-blue">
               {loader ? (
                 <>
                   {/*########### loader #############*/}
@@ -103,6 +116,9 @@ const Login = () => {
               ) : (
                 "SignIn"
               )}
+            </button>
+            <button className="btn w-100 btn-blue" onClick={loginWithGuestCredentials}>
+              Login with test credentials
             </button>
             <small>
               New User ? <NavLink to="/signup">Create account</NavLink>

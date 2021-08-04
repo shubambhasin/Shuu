@@ -8,6 +8,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { instance } from "../../api/axiosapi";
 import { notify } from "../../utils/notification";
+import MoreProductCard, { finalPrice } from "../moreProduct/MoreProductCard";
+import { ImBackward } from "react-icons/im";
+import { FaRupeeSign } from "react-icons/fa";
 
 const ProductDetailPage = () => {
   const { state, dispatch } = useProducts();
@@ -16,7 +19,7 @@ const ProductDetailPage = () => {
   const [particularProduct, setParticularProduct] = useState([]);
   const { authToken, login } = useAuth();
   const navigate = useNavigate();
-
+  console.log(window.location.hash);
   const { id } = useParams();
 
   useEffect(() => {
@@ -28,13 +31,12 @@ const ProductDetailPage = () => {
         );
         setLoading(false);
         console.log(res);
-
         setParticularProduct([...res.data]);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
+  }, [window.location.hash]);
 
   const isProductInCart = (product) => {
     const isInCart = state.cart.filter((data) => data._id === product._id);
@@ -144,11 +146,10 @@ const ProductDetailPage = () => {
       {loading && <h1 className="h2 t-center">Loading product details...</h1>}
       {!loading && (
         <>
-          <div className="flex jcsb aic">
+          <div className="flex mb1-rem jcsb aic l-10">
             {" "}
-            <h1 className="h1 mtb1-rem">Details</h1>
-            <NavLink to="/new-arrivals" className="btn btn-green">
-              Go back{" "}
+            <NavLink to="/new-arrivals" className="btn ">
+              <ImBackward size={28} />
             </NavLink>
           </div>
           {particularProduct.length !== 0 && (
@@ -156,19 +157,49 @@ const ProductDetailPage = () => {
               {particularProduct.map((product) => {
                 return (
                   <div>
-                    <div className="product-detail flex jcc gap-2">
+                    <div className="product-detail jcc gap-2">
                       <img
                         src={product.image}
                         alt="product-img"
                         className="responsive br10px"
                       />
                       <div className="product-detail-info">
-                        <h1 className="bold h2 larger">{product.name}</h1>
+                        <h1 className="product-name bold h2 larger">
+                          {product.name}
+                        </h1>
+                        <span className="flex aic gap-1">
+                          <span className="">
+                          ₹
+                            {Math.trunc(
+                              Number(finalPrice(product.price, product.offer))
+                            )}{" "}
+                          </span>{" "}
+                          <span className="strike f-grey">
+                          ₹{Number(`${product.price}`)}{" "}
+                          </span>
+                          <span className="">
+                            {" "}Save{" "}₹{" "}
+                            {Number(`${product.price}`) -
+                              Math.trunc(
+                                Number(finalPrice(product.price, product.offer))
+                              )}
+                          </span>
+                          <span className="f-red">{product.offer}% off</span>
+                        </span>
+                          <p className="f-green x-small bold">inclusive of all taxes</p>
 
-                        <p className="h3">Rs {product.price}</p>
-                        {/* <p>{finalPrice(`${product.price}`, `${product.offer}`)}</p> */}
+                        <div className="product-description">
+                          <h3 className="smaller">Product Description</h3>
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Ipsam culpa quas labore. Voluptas reprehenderit
+                          sunt delectus aspernatur quas! Voluptas ab atque quod
+                          quidem sit quo error deleniti tempora aperiam et.
+                          Possimus eligendi cupiditate, qui ea temporibus sed
+                          ratione praesentium est autem assumenda expedita iure
+                          animi deserunt consequatur.
+                        </div>
 
-                        <span className="equal flex gap-2">
+                        <span className="bottom-tab equal flex gap-2">
                           <button
                             className="btn btn-blue"
                             onClick={() => addToCart(product)}
@@ -197,6 +228,22 @@ const ProductDetailPage = () => {
                   </div>
                 );
               })}
+              <>
+                <h2 className="h3 mt2-rem">More Products</h2>
+                <div className="more-products-container flex gap-2">
+                  {state.products.slice(1, 4).map((product) => {
+                    return (
+                      <NavLink
+                        key={product._id}
+                        className="links"
+                        to={`/products/${product._id}`}
+                      >
+                        <MoreProductCard product={product} />
+                      </NavLink>
+                    );
+                  })}
+                </div>
+              </>
             </>
           )}
           {particularProduct.length === 0 && <h1>NO product found</h1>}

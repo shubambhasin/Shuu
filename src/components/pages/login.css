@@ -1,7 +1,10 @@
 
 /* GRID */
 
-
+.w-100
+{
+  width: 100%;
+}
 
 .col {
 
@@ -12,6 +15,7 @@
 .col:first-of-type {
   margin-left: 0;
 }
+
 
 
 

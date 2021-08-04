@@ -8,6 +8,8 @@ import { CLEAR_CART, FILL_CART } from "../reducer/actions";
 import { useAuth } from "../context/AuthContext";
 import MyLoader from "./loader/MyLoader";
 import BottomNavbar from "./bottomNavbar/BottomNavbar";
+import { instance } from "../api/axiosapi";
+import CartTotal from "./pages/totalCard/CartTotal";
 
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
@@ -18,14 +20,8 @@ const Cart = () => {
     (async () => {
       try {
         setLoader(true);
-        const response = await axios.get(
-          "https://databaseforecomm-1.shubambhasin.repl.co/cart",
-          {
-            headers: {
-              authorization: authToken,
-            },
-          }
-        );
+        const response = await instance.get(
+          "/cart");
         setLoader(false);
         console.log("Cart get request response: ", response);
         if (response.data.success) {
@@ -34,13 +30,11 @@ const Cart = () => {
               type: FILL_CART,
               payload: response.data.result[0].cartItems,
             });
-            // const cartTotalPrice = state.cart.reduce((a,b) => a.price*a.quantity + b.price*b.quantity)
-            // setTotalPrice(cartTotalPrice)
+            const cartTotalPrice = response.data.result[0].cartItems.map((data) => data.quantity* data.product.price)
+            console.log(cartTotalPrice);
+            setTotalPrice(cartTotalPrice.reduce((a, b) => a + b));
           }
-        } 
-        else 
-        {
-
+        } else {
         }
       } catch (error) {
         console.error("Cart get request error:", error);
@@ -49,16 +43,12 @@ const Cart = () => {
   }, []);
 
   useEffect(() => {
+    console.log(state.cart);
+  }, [state.cart]);
 
-    console.log(state.cart)
+  console.log(totalPrice);
 
-  }, [state.cart])
-
-
-  console.log(totalPrice)
-
-
- const clearCart = async () => {
+  const clearCart = async () => {
     try {
       const response = await axios.delete(
         "https://databaseForEcomm-1.shubambhasin.repl.co/cart",
@@ -81,7 +71,7 @@ const Cart = () => {
 
   return (
     <div>
-      <BottomNavbar/>
+      <BottomNavbar />
       {loader && <MyLoader text="Loading please wait" />}
       {!loader && (
         <div className="cart container">
@@ -119,7 +109,9 @@ const Cart = () => {
                   </div>
                   <div className="cart-total p1-rem">
                     {/* <h1>Total items:{ totalItems } </h1> */}
-                    Total Amount: <p className="bold">TO be fixed soon</p>
+                    Total Amount: <p className="bold">{<CartTotal/>}</p>
+
+                    <button className="btn b-orange">Checkout</button>
                   </div>
                 </div>
               </>
